@@ -284,8 +284,8 @@ const products = [
 ];
 
 const siteImages = {
-  hero:   '/Users/pruthatrivedi/Desktop/noora-site/images/products/Hero.png',
-  about1: '/Users/pruthatrivedi/Desktop/noora-site/images/products/about 1.jpeg',
-  about2: '/Users/pruthatrivedi/Desktop/noora-site/images/products/about 2.jpeg',
-  about3: '/Users/pruthatrivedi/Desktop/noora-site/images/products/about 3.jpeg',
+  hero:   'images/products/Hero.png',
+  about1: 'about 1.jpeg',
+  about2: 'about 2.jpeg',
+  about3: 'about 3.jpeg',
 };

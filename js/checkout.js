@@ -5,7 +5,7 @@
    const UPI_CONFIG = {
     upiId:    'archana.khandelwal-rediffmail.com@okhdfcbank',
     name:     'Noora Candles',
-    qrImage:  '/Users/pruthatrivedi/Desktop/noora-site/images/UPI Id.jpeg',
+    qrImage:  'images/UPI Id.jpeg',
     whatsapp: '917506060321',  // ✅ removed the + sign
   };
   
