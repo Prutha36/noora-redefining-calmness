@@ -285,7 +285,7 @@ const products = [
 
 const siteImages = {
   hero:   'images/products/Hero.png',
-  about1: 'about 1.jpeg',
-  about2: 'about 2.jpeg',
-  about3: 'about 3.jpeg',
+  about1: 'images/products/about 1.jpeg',
+  about2: 'images/products/about 2.jpeg',
+  about3: 'images/products/about 3.jpeg',
 };
