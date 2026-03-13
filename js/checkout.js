@@ -60,25 +60,35 @@
   
   function orderViaWhatsApp() {
     const fname = document.getElementById('sf-fname').value.trim();
+    const lname = document.getElementById('sf-lname').value.trim();
+    const phone = document.getElementById('sf-phone').value.trim();
     const city  = document.getElementById('sf-city').value.trim();
     const total = getCartTotal();
   
-    const itemLines = cart.map(i =>
-      `• ${i.emoji} ${i.name} × ${i.qty} = ₹${(i.price * i.qty).toFixed(2)}`
+    const itemLines = cart.map((i, idx) =>
+      `${idx + 1}. ${i.name} x ${i.qty} = Rs.${(i.price * i.qty).toFixed(2)}`
     ).join('\n');
   
-    const name = fname ? `Hi, I'm ${fname}${city ? ' from ' + city : ''}.\n\n` : '';
+    const fullName = [fname, lname].filter(Boolean).join(' ');
+    const location = city ? ` from ${city}` : '';
+    const header = fullName ? `Hi, I'm ${fullName}${location}.\n\n` : '';
+    const phoneLine = phone ? `Phone: ${phone}\n` : '';
   
     const msg = encodeURIComponent(
-      `${name}I'd like to place an order from Noora Candles 🕯️\n\n` +
-      `${itemLines}\n\n` +
-      `*Total: ₹${total.toFixed(2)}*\n\n` +
-      `Please share payment details. Thank you! 🌸`
+      `${header}` +
+      `I'd like to place an order from Noora Candles.\n\n` +
+      `ORDER DETAILS\n` +
+      `─────────────\n` +
+      `${itemLines}\n` +
+      `─────────────\n` +
+      `Total: Rs.${total.toFixed(2)}\n\n` +
+      `${phoneLine}` +
+      `Please share payment details. Thank you!`
     );
   
     window.open(`https://wa.me/${UPI_CONFIG.whatsapp}?text=${msg}`, '_blank');
   }
-
+  
   /* ── QR LIGHTBOX ── */
 function openQrLightbox() {
   if (!UPI_CONFIG.qrImage) return;
