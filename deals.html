@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deals & Offers — Noora Candles</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Lato:wght@300;400&family=Great+Vibes&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/global.css"/>
+  <link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body>
+
+<div class="petals-container">
+  <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+  <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+  <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+  <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="images/logo.png" alt="Noora" class="nav-logo-img"/>
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">Noora</span>
+      <span class="nav-logo-tagline">Redefining Calmness</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="fragrance.html">Fragrances</a></li>
+    <li><a href="deals.html" class="active">Deals</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="process.html">Process</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-cart" onclick="toggleCart()" aria-label="Cart">
+    🛒<span class="cart-count" id="cartCount">0</span>
+  </button>
+  <div id="navAuthBtn"></div>
+</nav>
+
+<!-- DEALS PAGE -->
+<div id="deals-page">
+  <div class="deals-inner">
+
+    <div class="shop-header">
+      <div class="floral-corner reveal" style="justify-content:center"><span>Offers & Deals</span></div>
+      <p class="section-eyebrow reveal">Made with love, priced with care</p>
+      <h2 class="section-title reveal">Exclusive <em>offers</em> for you</h2>
+    </div>
+
+    <!-- ACTIVE DEALS GRID -->
+    <div class="deals-grid" id="dealsGrid">
+
+      <!-- SIGNUP DEAL -->
+      <div class="deal-card reveal" id="dealSignup">
+        <div class="deal-card-badge">New Customer</div>
+        <div class="deal-card-icon">🌸</div>
+        <div class="deal-card-body">
+          <h3 class="deal-card-title">Welcome Gift</h3>
+          <p class="deal-card-desc">Sign up and get <strong>15% off</strong> your first order. No minimum purchase required.</p>
+          <div class="deal-card-code-wrap">
+            <span class="deal-card-label">Your code</span>
+            <div class="deal-card-code" id="signupDealCode">
+              <span class="deal-code-text">WELCOME15</span>
+              <button class="deal-copy-btn" onclick="copyCode('WELCOME15', this)">Copy</button>
+            </div>
+          </div>
+          <div class="deal-card-validity">Valid for all products · No expiry</div>
+        </div>
+        <div class="deal-card-actions" id="signupDealActions">
+          <a href="#" onclick="openAuthModal('signup');return false" class="btn-primary deal-action-btn">
+            Sign Up to Unlock ✿
+          </a>
+        </div>
+      </div>
+
+      <!-- BULK DEAL -->
+      <div class="deal-card reveal">
+        <div class="deal-card-badge deal-card-badge--green">Bulk Order</div>
+        <div class="deal-card-icon">🎁</div>
+        <div class="deal-card-body">
+          <h3 class="deal-card-title">Buy 3, Save More</h3>
+          <p class="deal-card-desc">Order 3 or more candles and get <strong>10% off</strong> your entire cart. Perfect for gifting.</p>
+          <div class="deal-card-code-wrap">
+            <span class="deal-card-label">Your code</span>
+            <div class="deal-card-code">
+              <span class="deal-code-text">NOORA10</span>
+              <button class="deal-copy-btn" onclick="copyCode('NOORA10', this)">Copy</button>
+            </div>
+          </div>
+          <div class="deal-card-validity">Valid on orders of 3+ candles</div>
+        </div>
+        <div class="deal-card-actions">
+          <a href="shop.html" class="btn-primary deal-action-btn">Shop Now ✿</a>
+        </div>
+      </div>
+
+      <!-- FLAT DISCOUNT DEAL -->
+      <div class="deal-card reveal">
+        <div class="deal-card-badge deal-card-badge--gold">Special Offer</div>
+        <div class="deal-card-icon">✨</div>
+        <div class="deal-card-body">
+          <h3 class="deal-card-title">₹100 Off</h3>
+          <p class="deal-card-desc">Get a flat <strong>₹100 off</strong> on any order. A little gift from us to you.</p>
+          <div class="deal-card-code-wrap">
+            <span class="deal-card-label">Your code</span>
+            <div class="deal-card-code">
+              <span class="deal-code-text">WELCOME100</span>
+              <button class="deal-copy-btn" onclick="copyCode('WELCOME100', this)">Copy</button>
+            </div>
+          </div>
+          <div class="deal-card-validity">Valid on all orders</div>
+        </div>
+        <div class="deal-card-actions">
+          <a href="shop.html" class="btn-primary deal-action-btn">Shop Now ✿</a>
+        </div>
+      </div>
+
+      <!-- CUSTOM ORDER DEAL -->
+      <div class="deal-card reveal">
+        <div class="deal-card-badge deal-card-badge--rose">Custom</div>
+        <div class="deal-card-icon">🕯️</div>
+        <div class="deal-card-body">
+          <h3 class="deal-card-title">Custom Fragrance</h3>
+          <p class="deal-card-desc">Can't find your perfect scent? Request a <strong>custom fragrance blend</strong> at no extra charge.</p>
+          <div class="deal-card-validity">Available on all sculpted candles</div>
+        </div>
+        <div class="deal-card-actions">
+          <a href="fragrance.html#custom" class="btn-primary deal-action-btn">Request Custom ✿</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- HOW TO USE SECTION -->
+    <div class="deals-how-section reveal">
+      <div class="floral-corner" style="justify-content:center"><span>How to use</span></div>
+      <h3 class="section-title" style="text-align:center;font-size:1.8rem;">Using your coupon code</h3>
+      <div class="deals-steps">
+        <div class="deals-step">
+          <div class="deals-step-num">1</div>
+          <div class="deals-step-text">Add your favourite candles to cart</div>
+        </div>
+        <div class="deals-step-arrow">→</div>
+        <div class="deals-step">
+          <div class="deals-step-num">2</div>
+          <div class="deals-step-text">Click Proceed to Checkout</div>
+        </div>
+        <div class="deals-step-arrow">→</div>
+        <div class="deals-step">
+          <div class="deals-step-num">3</div>
+          <div class="deals-step-text">Enter your coupon code and click Apply</div>
+        </div>
+        <div class="deals-step-arrow">→</div>
+        <div class="deals-step">
+          <div class="deals-step-num">4</div>
+          <div class="deals-step-text">Discount applied instantly!</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <a href="index.html" class="footer-logo">
+      <img src="images/logo.png" alt="Noora" class="footer-logo-img"/>
+      Noora
+    </a>
+    <p>Redefining Calmness — one candle at a time. Handpoured with love in small batches.</p>
+  </div>
+  <div><h5>Shop</h5><ul>
+    <li><a href="shop.html">All Candles</a></li>
+    <li><a href="fragrance.html">By Fragrance</a></li>
+    <li><a href="deals.html">Deals</a></li>
+  </ul></div>
+  <div><h5>Info</h5><ul>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="process.html">Our Process</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul></div>
+  <div><h5>Follow Along</h5><ul>
+    <li><a href="https://instagram.com/candlesby_noora" target="_blank" rel="noopener">Instagram ✿</a></li>
+  </ul></div>
+</footer>
+<div class="footer-bottom">❀ © 2025 Noora. All rights reserved. Made with love ❀</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-drawer-header">
+    <h3>Your Cart ✿</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty"><span>🌸</span>Your cart is beautifully empty</div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">₹0.00</span></div>
+    <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout ✿</button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="stripe-overlay" id="checkoutOverlay" onclick="closeCheckoutModal()"></div>
+<div class="stripe-modal" id="checkoutModal">
+  <div class="stripe-modal-header">
+    <div><div class="stripe-modal-logo">Noora</div><p class="stripe-modal-sub">✿ Secure Checkout ✿</p></div>
+    <button class="stripe-close" onclick="closeCheckoutModal()">✕</button>
+  </div>
+  <div class="stripe-order-summary" id="orderSummary"></div>
+  <div class="stripe-divider"></div>
+  <div class="stripe-section-label">Your Details</div>
+  <div class="stripe-field-row">
+    <div class="stripe-field"><label>First Name</label><input type="text" id="sf-fname" placeholder="Noora"/></div>
+    <div class="stripe-field"><label>Last Name</label><input type="text" id="sf-lname" placeholder="Al-Farsi"/></div>
+  </div>
+  <div class="stripe-field"><label>Phone</label><input type="tel" id="sf-phone" placeholder="+91 98765 43210"/></div>
+  <div class="stripe-field"><label>City</label><input type="text" id="sf-city" placeholder="Mumbai"/></div>
+  <div class="stripe-field"><label>Email</label><input type="email" id="sf-email" placeholder="you@email.com"/></div>
+  <div class="stripe-divider" style="margin-top:1.4rem"></div>
+  <div class="stripe-section-label">Coupon Code</div>
+  <div class="coupon-row">
+    <input type="text" id="couponInput" class="coupon-input" placeholder="Enter coupon code"/>
+    <button class="coupon-apply-btn" onclick="applyCoupon(document.getElementById('couponInput').value)">Apply</button>
+  </div>
+  <div id="couponError" class="coupon-error"></div>
+  <div id="couponSuccess" class="coupon-success"></div>
+  <div class="stripe-divider" style="margin-top:1.4rem"></div>
+  <div class="stripe-section-label">Pay via UPI</div>
+  <div class="upi-panel">
+    <div class="upi-badge"><div class="upi-dot"></div>UPI</div>
+    <div class="upi-id-box">
+      <div>
+        <div class="upi-id-label">UPI ID</div>
+        <div class="upi-id-value" id="upiIdValue"></div>
+      </div>
+      <button class="upi-copy-btn" id="upiCopyBtn" onclick="copyUpiId()">Copy</button>
+    </div>
+    <p class="upi-name" id="upiName"></p>
+    <div class="upi-qr-placeholder" id="upiQrImg" onclick="openQrLightbox()">
+      <span style="font-size:2rem">📷</span>
+      <small>Add your QR to<br>images/upi-qr.jpeg</small>
+    </div>
+    <div class="upi-steps">
+      <h4>How to pay</h4>
+      <div class="upi-step-item"><div class="upi-step-num">1</div>Open GPay, PhonePe, Paytm or any UPI app</div>
+      <div class="upi-step-item"><div class="upi-step-num">2</div>Scan the QR or enter the UPI ID manually</div>
+      <div class="upi-step-item"><div class="upi-step-num">3</div>Pay exactly <strong id="upiPayTotal"></strong></div>
+      <div class="upi-step-item"><div class="upi-step-num">4</div>Click confirm below — we will verify and ship 🌸</div>
+    </div>
+    <button class="upi-confirm-btn" onclick="confirmUpiPayment()">✿ I've Paid — Confirm My Order</button>
+  </div>
+  <div class="whatsapp-divider"><span>or</span></div>
+  <button class="whatsapp-order-btn" onclick="orderViaWhatsApp()">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Order via WhatsApp
+  </button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/checkout.js"></script>
+<script src="js/coupons.js"></script>
+<script src="js/email.js"></script>
+<script src="js/fragrance.js"></script>
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script>
+function copyCode(code, btn) {
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied ✓';
+    btn.style.background = 'var(--leaf)';
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.style.background = '';
+    }, 2000);
+  });
+}
+
+function initDealsPage() {
+  const actions = document.getElementById('signupDealActions');
+  if (!actions) return;
+  if (typeof currentUser !== 'undefined' && currentUser) {
+    actions.innerHTML = `
+      <div class="deal-unlocked">
+        <span class="deal-unlocked-icon">✓</span>
+        You're signed in — use code <strong>WELCOME15</strong> at checkout!
+      </div>
+    `;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initAuth().then(() => {
+    updateCartUI();
+    initDealsPage();
+  });
+});
+</script>
+</body>
+</html>

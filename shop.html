@@ -28,7 +28,9 @@
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="shop.html">Shop</a></li>
+    <li><a href="shop.html" class="active">Shop</a></li>
+    <li><a href="fragrance.html">Fragrances</a></li>
+    <li><a href="deals.html">Deals</a></li>
     <li><a href="about.html">Our Story</a></li>
     <li><a href="process.html">Process</a></li>
     <li><a href="contact.html">Contact</a></li>
@@ -36,24 +38,72 @@
   <button class="nav-cart" onclick="toggleCart()" aria-label="Cart">
     🛒<span class="cart-count" id="cartCount">0</span>
   </button>
+  <div id="navAuthBtn"></div>
 </nav>
 
 <!-- SHOP -->
 <div id="shop-page">
   <div class="shop-inner">
+
     <div class="shop-header">
       <div class="floral-corner reveal" style="justify-content:center"><span>Our Collection</span></div>
       <p class="section-eyebrow reveal">Find Your Calm</p>
       <h2 class="section-title reveal">Scents that <em>bloom</em> within you</h2>
     </div>
-    <div class="shop-filters reveal">
-      <button class="filter-btn active" data-filter="all">✿ All</button>
-      <button class="filter-btn" data-filter="Sculpted">Sculpted</button>
-      <button class="filter-btn" data-filter="Pillar">Pillar</button>
-      <button class="filter-btn" data-filter="Container">Container / Jar</button>
-      <button class="filter-btn" data-filter="Gift">Gift Sets</button>
+
+    <!-- SHOP MODE TABS -->
+    <div class="shop-mode-tabs reveal">
+      <button class="shop-mode-tab active" onclick="setShopMode('category', this)">Shop by Category</button>
+      <button class="shop-mode-tab" onclick="setShopMode('fragrance', this)">Shop by Fragrance</button>
     </div>
-    <div class="products-grid" id="productsGrid"></div>
+
+    <!-- CATEGORY VIEW -->
+    <div id="categoryView">
+      <div class="shop-filters reveal">
+        <button class="filter-btn active" data-filter="all">✿ All</button>
+        <button class="filter-btn" data-filter="Sculpted">Sculpted</button>
+        <button class="filter-btn" data-filter="Cafe">Café Series</button>
+        <button class="filter-btn" data-filter="Floral">Floral Jars</button>
+        <button class="filter-btn" data-filter="Arabic">Arabic & Woody</button>
+        <button class="filter-btn" data-filter="Pillar">Pillar</button>
+        <button class="filter-btn" data-filter="gift">Gift Sets</button>
+        <button class="filter-btn" data-filter="New">New</button>
+        <button class="filter-btn" data-filter="Limited">Limited</button>
+      </div>
+      <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <!-- FRAGRANCE VIEW -->
+    <!-- FRAGRANCE VIEW -->
+<div id="fragranceView" style="display:none">
+  <div class="frag-family-tabs reveal" id="shopFragTabs">
+    <button class="frag-family-tab active" onclick="setShopFragFamily('all',this)">All Scents</button>
+    <button class="frag-family-tab" onclick="setShopFragFamily('floral',this)">🌸 Floral</button>
+    <button class="frag-family-tab" onclick="setShopFragFamily('fresh',this)">🌿 Fresh & Green</button>
+    <button class="frag-family-tab" onclick="setShopFragFamily('woody',this)">🕌 Woody & Arabic</button>
+    <button class="frag-family-tab" onclick="setShopFragFamily('fruity',this)">🍊 Fruity</button>
+    <button class="frag-family-tab" onclick="setShopFragFamily('cafe',this)">☕ Café</button>
+  </div>
+  <div class="fragrance-scents-grid" id="shopScentGrid"></div>
+  <div id="shopFragResults" style="display:none">
+    <div class="fragrance-results-header">
+      <div class="fragrance-results-label" id="shopFragLabel"></div>
+      <a href="fragrance.html" class="view-in-shop-btn">Browse all fragrances →</a>
+    </div>
+    <div class="products-grid" id="fragProductsGrid"></div>
+  </div>
+</div>
+
+      <!-- Scent pills shown after family selected -->
+      <div id="fragFamilyDetail" style="display:none">
+        <div class="frag-pills-label" id="fragPillsLabel"></div>
+        <div class="frag-pills-row" id="fragPillsRow"></div>
+      </div>
+
+      <!-- Products from fragrance filter -->
+      <div class="products-grid" id="fragProductsGrid"></div>
+    </div>
+
   </div>
 </div>
 
@@ -133,7 +183,21 @@
     <div class="stripe-field"><label>Last Name</label><input type="text" id="sf-lname" placeholder="Al-Farsi"/></div>
   </div>
   <div class="stripe-field"><label>Phone</label><input type="tel" id="sf-phone" placeholder="+91 98765 43210"/></div>
-  <div class="stripe-field"><label>City</label><input type="text" id="sf-city" placeholder="Mumbai"/></div>
+  <div class="stripe-field"><label>Email</label><input type="email" id="sf-email" placeholder="you@email.com"/></div>
+  <div class="stripe-field"><label>Address</label><input type="text" id="sf-city" placeholder="Mumbai"/></div>
+
+  <div class="stripe-divider" style="margin-top:1.4rem"></div>
+  <div class="stripe-section-label">Coupon Code</div>
+  <div class="coupon-row">
+    <input type="text" id="couponInput" class="coupon-input" placeholder="Enter coupon code"/>
+    <button class="coupon-apply-btn" onclick="applyCoupon(document.getElementById('couponInput').value)">Apply</button>
+  </div>
+  <div id="couponError" class="coupon-error"></div>
+  <div id="couponSuccess" class="coupon-success"></div>
+  <div class="coupon-applied-row" id="couponAppliedRow" style="display:none">
+    <span id="couponAppliedLabel"></span>
+    <button class="coupon-remove-btn" onclick="removeCoupon()">Remove</button>
+  </div>
 
   <div class="stripe-divider" style="margin-top:1.4rem"></div>
   <div class="stripe-section-label">Pay via UPI</div>
@@ -172,9 +236,15 @@
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/products.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/checkout.js"></script>
+<script src="js/coupons.js"></script>
+<script src="js/email.js"></script>
+<script src="js/fragrance.js"></script>
 <script src="js/main.js"></script>
+<script src="js/auth.js"></script>
 </body>
 </html>
