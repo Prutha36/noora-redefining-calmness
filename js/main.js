@@ -30,8 +30,10 @@ function setActiveNav() {
 
 /* ── HAMBURGER ── */
 function toggleMobileMenu() {
-  document.getElementById('mobileMenu').classList.toggle('open');
-  document.getElementById('mobileMenuOverlay').classList.toggle('open');
+  var m = document.getElementById('mobileMenu');
+  var o = document.getElementById('mobileMenuOverlay');
+  if (m) m.classList.toggle('open');
+  if (o) o.classList.toggle('open');
 }
 function closeMobileMenu() {
   var m = document.getElementById('mobileMenu'); if (m) m.classList.remove('open');
@@ -41,7 +43,7 @@ function closeMobileMenu() {
 /* ── PRICE HELPERS ── */
 function computePrice(p, fragIdx, sizeIdx) {
   var base = (p.fragrances[fragIdx] || p.fragrances[0]).price;
-  var add  = p.sizes[sizeIdx] ? (p.sizes[sizeIdx].priceAdd || 0) : 0;
+  var add  = (p.sizes[sizeIdx] && p.sizes[sizeIdx].priceAdd) ? p.sizes[sizeIdx].priceAdd : 0;
   return base + add;
 }
 
@@ -58,102 +60,88 @@ function getColourGroups(p) {
   return groups.length > 1 ? groups : null;
 }
 
-/* ── SWIPE: prevent modal open after swipe ── */
-var _swipeJustHappened = false;
-function markSwipe() {
-  _swipeJustHappened = true;
-  setTimeout(function(){ _swipeJustHappened = false; }, 450);
+/* ── SWIPE: flag to stop card-click firing after a swipe ── */
+var _swipeBlocked = false;
+function blockNextClick() {
+  _swipeBlocked = true;
+  setTimeout(function(){ _swipeBlocked = false; }, 500);
 }
 
 function swipeCardColour(pid, dir) {
-  var p  = products.find(function(x){ return x.id === pid; });
+  var p = products.find(function(x){ return x.id === pid; });
   if (!p) return;
   var cg = getColourGroups(p);
   if (!cg) return;
   var card = document.getElementById('pcard-' + pid);
   if (!card) return;
-  var idx = parseInt(card.dataset.ci || '0');
-  idx = (idx + dir + cg.length) % cg.length;
+  var idx = ((parseInt(card.dataset.ci) || 0) + dir + cg.length) % cg.length;
   card.dataset.ci = idx;
   var img = card.querySelector('.product-card-img');
   if (img) img.src = cg[idx].image;
   card.querySelectorAll('.pcdot').forEach(function(d, i){ d.classList.toggle('active', i === idx); });
-  markSwipe();
+  blockNextClick();
 }
 
-/* ── ATTACH CARD SWIPES (passive, no scroll block) ── */
+/* ── CARD SWIPE via event delegation (passive, never blocks scroll) ── */
 function attachCardSwipes(containerId) {
-  var container = document.getElementById(containerId);
-  if (!container) return;
-  var sx, sy, swiped;
-
-  container.addEventListener('touchstart', function(e) {
-    var target = e.target.closest('.product-img');
-    if (!target) return;
-    sx = e.touches[0].clientX;
-    sy = e.touches[0].clientY;
-    swiped = false;
+  var el = document.getElementById(containerId);
+  if (!el || el._swipeBound) return;
+  el._swipeBound = true;
+  var sx, sy, moved;
+  el.addEventListener('touchstart', function(e) {
+    if (!e.target.closest('.product-img')) return;
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY; moved = false;
   }, { passive: true });
-
-  container.addEventListener('touchmove', function(e) {
+  el.addEventListener('touchmove', function(e) {
     if (sx === undefined) return;
-    var dx = Math.abs(e.touches[0].clientX - sx);
-    var dy = Math.abs(e.touches[0].clientY - sy);
-    if (dx > dy && dx > 8) swiped = true;
+    if (Math.abs(e.touches[0].clientX - sx) > Math.abs(e.touches[0].clientY - sy) + 5) moved = true;
   }, { passive: true });
-
-  container.addEventListener('touchend', function(e) {
-    if (!swiped || sx === undefined) { sx = undefined; return; }
-    var card = e.target.closest('.product-card');
-    if (!card) { sx = undefined; return; }
+  el.addEventListener('touchend', function(e) {
+    if (!moved || sx === undefined) { sx = undefined; return; }
     var dx = e.changedTouches[0].clientX - sx;
     var dy = e.changedTouches[0].clientY - sy;
-    if (Math.abs(dx) > 36 && Math.abs(dx) > Math.abs(dy) * 1.3) {
-      var pid = parseInt(card.id.replace('pcard-', ''));
-      swipeCardColour(pid, dx > 0 ? -1 : 1);
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      var card = e.target.closest('.product-card');
+      if (card) swipeCardColour(parseInt(card.id.replace('pcard-','')), dx > 0 ? -1 : 1);
     }
-    sx = undefined; swiped = false;
+    sx = undefined; moved = false;
   }, { passive: true });
 }
 
 /* ── BUILD PRODUCT CARD ── */
 function buildProductCard(p) {
   var cg = getColourGroups(p);
-  var prices   = p.fragrances.map(function(f){ return f.price; });
-  var minP     = Math.min.apply(null, prices);
-  var maxP     = Math.max.apply(null, prices);
-  var priceStr = minP === maxP ? '₹' + minP : 'from ₹' + minP;
-  var guestWL  = (typeof getGuestWishlist === 'function') ? getGuestWishlist() : new Set();
-  var wlIds    = (typeof wishlistIds !== 'undefined' && wishlistIds.size) ? wishlistIds : guestWL;
-  var isWL     = wlIds.has(p.id);
-  var dots = '';
+  var prices = p.fragrances.map(function(f){ return f.price; });
+  var minP   = Math.min.apply(null, prices);
+  var maxP   = Math.max.apply(null, prices);
+  var priceStr = minP === maxP ? '&#8377;' + minP : 'from &#8377;' + minP;
+  var gw   = (typeof getGuestWishlist === 'function') ? getGuestWishlist() : new Set();
+  var wlIds = (typeof wishlistIds !== 'undefined' && wishlistIds.size) ? wishlistIds : gw;
+  var isWL  = wlIds.has(p.id);
+  var dots  = '';
   if (cg && cg.length > 1) {
     dots = '<div class="pcard-colour-dots">' +
-      cg.slice(0,8).map(function(g, i){
+      cg.slice(0,8).map(function(g,i){
         return '<span class="pcdot' + (i===0?' active':'') + '" style="background-image:url(\'' + g.image + '\')"></span>';
       }).join('') + '</div>';
   }
-  return (
-    '<div class="product-card reveal" id="pcard-' + p.id + '" data-ci="0" onclick="if(!_swipeJustHappened)openProductModal(' + p.id + ')">' +
-      '<div class="product-img">' +
-        (p.tag ? '<span class="product-tag">' + p.tag + '</span>' : '') +
-        '<button class="wishlist-btn' + (isWL ? ' wishlisted' : '') + '" data-pid="' + p.id + '"' +
-          ' onclick="event.stopPropagation();toggleWishlist(' + p.id + ',this)">' +
-          (isWL ? '❤️' : '🤍') + '</button>' +
-        '<img src="' + p.image + '" alt="' + p.name + '" class="product-card-img"' +
-          ' loading="lazy" decoding="async"' +
-          ' onerror="this.style.display=\'none\'">' +
-        dots +
+  return '<div class="product-card reveal" id="pcard-' + p.id + '" data-ci="0"' +
+    ' onclick="if(!_swipeBlocked)openProductModal(' + p.id + ')">' +
+    '<div class="product-img">' +
+      (p.tag ? '<span class="product-tag">' + p.tag + '</span>' : '') +
+      '<button class="wishlist-btn' + (isWL?' wishlisted':'') + '" data-pid="' + p.id + '"' +
+        ' onclick="event.stopPropagation();toggleWishlist(' + p.id + ',this)">' + (isWL?'❤️':'🤍') + '</button>' +
+      '<img src="' + p.image + '" alt="' + p.name + '" class="product-card-img" loading="lazy" decoding="async">' +
+      dots +
+    '</div>' +
+    '<div class="product-info">' +
+      '<div class="product-name">' + p.name + '</div>' +
+      '<div class="product-footer">' +
+        '<div class="product-price">' + priceStr + '</div>' +
+        '<button class="add-to-cart" onclick="event.stopPropagation();openProductModal(' + p.id + ')">Customise ✿</button>' +
       '</div>' +
-      '<div class="product-info">' +
-        '<div class="product-name">' + p.name + '</div>' +
-        '<div class="product-footer">' +
-          '<div class="product-price">' + priceStr + '</div>' +
-          '<button class="add-to-cart" onclick="event.stopPropagation();openProductModal(' + p.id + ')">Customise ✿</button>' +
-        '</div>' +
-      '</div>' +
-    '</div>'
-  );
+    '</div>' +
+  '</div>';
 }
 
 /* ── PRODUCT GRID ── */
@@ -194,13 +182,11 @@ function setShopMode(mode, btn) {
   if (cv) cv.style.display = mode === 'category'  ? 'block' : 'none';
   if (fv) fv.style.display = mode === 'fragrance' ? 'block' : 'none';
   if (mode === 'fragrance') {
-    renderShopScentGrid('all');
-    var r = document.getElementById('shopFragResults');
-    if (r) r.style.display = 'none';
+    if (typeof renderShopScentGrid === 'function') renderShopScentGrid('all');
+    var r = document.getElementById('shopFragResults'); if (r) r.style.display = 'none';
   }
 }
 
-/* ── FRAGRANCE BROWSER ── */
 var activeShopFragFamily = 'all';
 var activeShopScent = null;
 
@@ -213,21 +199,20 @@ function setShopFragFamily(fam, btn) {
 }
 
 function renderShopScentGrid(fam) {
-  var grid = document.getElementById('shopScentGrid');
-  if (!grid) return;
+  var grid = document.getElementById('shopScentGrid'); if (!grid) return;
   var list = fam === 'all'
     ? Object.values(SCENT_FAMILIES).flatMap(function(f){ return f.scents; })
     : (SCENT_FAMILIES[fam] ? SCENT_FAMILIES[fam].scents : []);
   grid.innerHTML = list.map(function(s){
-    return '<button class="fragrance-scent-pill' + (activeShopScent===s?' active':'') + '" onclick="selectShopScent(\'' + s.replace(/'/g,"\\'") + '\',this)">' + s + '</button>';
+    return '<button class="fragrance-scent-pill' + (activeShopScent===s?' active':'') + '"' +
+      ' onclick="selectShopScent(\'' + s.replace(/'/g,"\\'") + '\',this)">' + s + '</button>';
   }).join('');
 }
 
 function selectShopScent(scent, btn) {
   document.querySelectorAll('#shopScentGrid .fragrance-scent-pill').forEach(function(p){ p.classList.remove('active'); });
-  btn.classList.add('active');
-  activeShopScent = scent;
-  var ids = SCENT_TO_PRODUCTS[scent] || [];
+  btn.classList.add('active'); activeShopScent = scent;
+  var ids = (typeof SCENT_TO_PRODUCTS !== 'undefined') ? (SCENT_TO_PRODUCTS[scent] || []) : [];
   var matched = products.filter(function(p){ return ids.includes(p.id); });
   var r = document.getElementById('shopFragResults'); if (r) r.style.display = 'block';
   var l = document.getElementById('shopFragLabel');
@@ -236,8 +221,7 @@ function selectShopScent(scent, btn) {
 }
 
 function renderFragProducts(gridId, list) {
-  var grid = document.getElementById(gridId);
-  if (!grid) return;
+  var grid = document.getElementById(gridId); if (!grid) return;
   if (!list || !list.length) {
     grid.innerHTML = '<p style="text-align:center;color:var(--text-light);font-style:italic;padding:2rem 0;grid-column:1/-1">No products found 🌸</p>';
     return;
@@ -255,7 +239,7 @@ function renderFragProducts(gridId, list) {
 var modalState = { pid: null, colourIdx: 0, fragIdx: 0, sizeIdx: 0, qty: 1 };
 
 function openProductModal(pid, colourIdx) {
-  if (_swipeJustHappened) return;
+  if (_swipeBlocked) return;
   colourIdx = colourIdx || 0;
   var p = products.find(function(x){ return x.id === pid; });
   if (!p) return;
@@ -266,90 +250,67 @@ function openProductModal(pid, colourIdx) {
 
   var imgEl = document.getElementById('modal-img');
   if (imgEl) { imgEl.src = img; imgEl.alt = p.name; }
-  var nameEl = document.getElementById('modal-name'); if (nameEl) nameEl.textContent = p.name;
+  var nameEl  = document.getElementById('modal-name');  if (nameEl)  nameEl.textContent  = p.name;
   var priceEl = document.getElementById('modal-price'); if (priceEl) priceEl.textContent = '₹' + frags[0].price;
-  var tagEl = document.getElementById('modal-tag');
-  if (tagEl) { tagEl.textContent = p.tag || ''; tagEl.style.display = p.tag ? 'inline-block' : 'none'; }
+  var tagEl   = document.getElementById('modal-tag');
+  if (tagEl)  { tagEl.textContent = p.tag||''; tagEl.style.display = p.tag ? 'inline-block' : 'none'; }
 
-  var colourSection = document.getElementById('modal-colour-section');
+  var colSection = document.getElementById('modal-colour-section');
   if (cg && cg.length > 1) {
-    if (colourSection) colourSection.style.display = 'block';
+    if (colSection) colSection.style.display = 'block';
     var sw = document.getElementById('modal-swatches');
-    if (sw) sw.innerHTML = cg.map(function(g, i){
+    if (sw) sw.innerHTML = cg.map(function(g,i){
       return '<button class="modal-swatch' + (i===colourIdx?' active':'') + '"' +
         ' style="background-image:url(\'' + g.image + '\')"' +
         ' onclick="selectModalColour(' + i + ')"></button>';
     }).join('');
   } else {
-    if (colourSection) colourSection.style.display = 'none';
+    if (colSection) colSection.style.display = 'none';
   }
 
   renderModalFragrances(frags, 0);
 
   var sizesEl = document.getElementById('modal-sizes');
-  if (sizesEl) sizesEl.innerHTML = p.sizes.map(function(s, i){
+  if (sizesEl) sizesEl.innerHTML = p.sizes.map(function(s,i){
     return '<button class="modal-size-chip' + (i===0?' active':'') + '" onclick="selectModalSize(' + i + ')">' + s.label + '</button>';
   }).join('');
 
   var qtyEl = document.getElementById('modal-qty'); if (qtyEl) qtyEl.textContent = 1;
-
-  /* attach image swipe inside modal */
-  attachModalImageSwipe(p, cg);
 
   document.getElementById('productModal').classList.add('open');
   document.getElementById('productModalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
-function attachModalImageSwipe(p, cg) {
-  if (!cg) return;
-  var imgCol = document.getElementById('modal-img-col');
-  if (!imgCol || imgCol._swipeAttached) return;
-  imgCol._swipeAttached = true;
-  var sx, sy;
-  imgCol.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-  imgCol.addEventListener('touchend', function(e) {
-    if (sx === undefined) return;
-    var dx = e.changedTouches[0].clientX - sx;
-    var dy = e.changedTouches[0].clientY - sy;
-    if (Math.abs(dx) > 36 && Math.abs(dx) > Math.abs(dy) * 1.3) {
-      selectModalColour((modalState.colourIdx + (dx > 0 ? -1 : 1) + cg.length) % cg.length);
-    }
-    sx = undefined;
-  }, { passive: true });
-}
-
 function renderModalFragrances(frags, activeIdx) {
-  var el = document.getElementById('modal-frags');
-  if (!el) return;
-  el.innerHTML = frags.map(function(f, i){
+  var el = document.getElementById('modal-frags'); if (!el) return;
+  el.innerHTML = frags.map(function(f,i){
     return '<button class="modal-frag-pill' + (i===activeIdx?' active':'') + '" onclick="selectModalFrag(' + i + ')">' + f.name + '</button>';
   }).join('');
 }
 
 function selectModalColour(idx) {
-  var p  = products.find(function(x){ return x.id === modalState.pid; });
-  var cg = getColourGroups(p);
-  if (!cg) return;
+  var p = products.find(function(x){ return x.id === modalState.pid; });
+  var cg = getColourGroups(p); if (!cg) return;
   modalState.colourIdx = idx; modalState.fragIdx = 0;
   var imgEl = document.getElementById('modal-img'); if (imgEl) imgEl.src = cg[idx].image;
-  document.querySelectorAll('.modal-swatch').forEach(function(s, i){ s.classList.toggle('active', i===idx); });
+  document.querySelectorAll('.modal-swatch').forEach(function(s,i){ s.classList.toggle('active', i===idx); });
   renderModalFragrances(cg[idx].fragrances, 0);
   var priceEl = document.getElementById('modal-price'); if (priceEl) priceEl.textContent = '₹' + cg[idx].fragrances[0].price;
 }
 
 function selectModalFrag(idx) {
-  var p  = products.find(function(x){ return x.id === modalState.pid; });
+  var p = products.find(function(x){ return x.id === modalState.pid; });
   var cg = getColourGroups(p);
   var frags = cg ? cg[modalState.colourIdx].fragrances : p.fragrances;
   modalState.fragIdx = idx;
-  document.querySelectorAll('.modal-frag-pill').forEach(function(pill, i){ pill.classList.toggle('active', i===idx); });
+  document.querySelectorAll('.modal-frag-pill').forEach(function(pill,i){ pill.classList.toggle('active', i===idx); });
   var priceEl = document.getElementById('modal-price'); if (priceEl) priceEl.textContent = '₹' + frags[idx].price;
 }
 
 function selectModalSize(idx) {
   modalState.sizeIdx = idx;
-  document.querySelectorAll('.modal-size-chip').forEach(function(s, i){ s.classList.toggle('active', i===idx); });
+  document.querySelectorAll('.modal-size-chip').forEach(function(s,i){ s.classList.toggle('active', i===idx); });
 }
 
 function changeModalQty(delta) {
@@ -364,18 +325,18 @@ function addToCartFromModal() {
   var frags = cg ? cg[modalState.colourIdx].fragrances : p.fragrances;
   var frag  = frags[modalState.fragIdx];
   var size  = p.sizes[modalState.sizeIdx];
-  var price = frag.price + (size.priceAdd || 0);
-  var itemName = p.name + ' — ' + frag.name + ', ' + size.label;
-  var fragIdx  = p.fragrances.findIndex(function(f){ return f.name === frag.name; });
-  var existing = cart.find(function(c){ return c.pid === p.id && c.name === itemName; });
-  if (existing) { existing.qty += modalState.qty; }
-  else { cart.push({ pid: p.id, name: itemName, price: price, qty: modalState.qty, fragIdx: fragIdx >= 0 ? fragIdx : 0, sizeIdx: modalState.sizeIdx, image: frag.image || p.image }); }
+  var price = frag.price + ((size && size.priceAdd) ? size.priceAdd : 0);
+  var name  = p.name + ' — ' + frag.name + ', ' + size.label;
+  var fi    = p.fragrances.findIndex(function(f){ return f.name === frag.name; });
+  var ex    = cart.find(function(c){ return c.pid === p.id && c.name === name; });
+  if (ex) { ex.qty += modalState.qty; }
+  else { cart.push({ pid: p.id, name: name, price: price, qty: modalState.qty, fragIdx: fi >= 0 ? fi : 0, sizeIdx: modalState.sizeIdx, image: frag.image || p.image }); }
   saveCart(); updateCartUI(); closeProductModal();
   showToast(p.name + ' added to cart 🌸');
 }
 
 function closeProductModal() {
-  var m = document.getElementById('productModal'); if (m) { m.classList.remove('open'); var imgCol = m.querySelector('#modal-img-col'); if(imgCol) imgCol._swipeAttached = false; }
+  var m = document.getElementById('productModal'); if (m) m.classList.remove('open');
   var o = document.getElementById('productModalOverlay'); if (o) o.classList.remove('open');
   document.body.style.overflow = '';
 }
@@ -383,32 +344,22 @@ function closeProductModal() {
 /* ── ABOUT / HERO ── */
 function loadAboutImages() {
   var map = { aboutImg1: siteImages.about1, aboutImg2: siteImages.about2, aboutImg3: siteImages.about3 };
-  Object.entries(map).forEach(function(kv) { var el = document.getElementById(kv[0]); if (el) el.innerHTML = '<img src="' + kv[1] + '" alt=""/>'; });
+  Object.entries(map).forEach(function(kv){ var el=document.getElementById(kv[0]); if(el) el.innerHTML='<img src="'+kv[1]+'" alt=""/>'; });
 }
 function loadHeroImage() {
-  var wrap = document.getElementById('heroImgWrap');
-  if (!wrap) return;
-  wrap.innerHTML = '<img src="' + siteImages.hero + '" alt="Noora Candles" onerror="this.outerHTML=\'<div class=\\\'hero-placeholder\\\'><span>🕯️</span></div>\'">';
+  var w = document.getElementById('heroImgWrap'); if (!w) return;
+  w.innerHTML = '<img src="' + siteImages.hero + '" alt="Noora Candles">';
 }
-
 function handleContactSubmit(e) { e.preventDefault(); showToast("Message sent! We'll be in touch soon 🌸"); e.target.reset(); }
-
 function initDealsPage() {
-  var a = document.getElementById('signupDealActions');
-  if (!a) return;
-  if (typeof currentUser !== 'undefined' && currentUser) {
+  var a = document.getElementById('signupDealActions'); if (!a) return;
+  if (typeof currentUser !== 'undefined' && currentUser)
     a.innerHTML = '<div class="deal-unlocked"><span class="deal-unlocked-icon">✓</span>You\'re signed in — use code <strong>WELCOME15</strong> at checkout!</div>';
-  }
 }
 
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded', function() {
-  initScrollReveal();
-  setActiveNav();
-  renderProducts();
-  initFilters();
-  loadHeroImage();
-  loadAboutImages();
+  initScrollReveal(); setActiveNav(); renderProducts(); initFilters(); loadHeroImage(); loadAboutImages();
   initAuth().then(function() {
     updateCartUI();
     if (typeof updateWishlistCount === 'function') updateWishlistCount();
