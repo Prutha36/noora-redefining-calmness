@@ -367,3 +367,109 @@
   .deals-steps { flex-direction: column; }
   .deals-step-arrow { transform: rotate(90deg); margin: 0; }
 }
+
+/* ── CONTACT & CUSTOM ORDER MOBILE FIXES ── */
+
+/* 1. Custom Fragrance Section Styling */
+.custom-frag-section {
+  padding: 4rem 4rem 6rem;
+  background: var(--ivory);
+}
+
+.custom-frag-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.custom-frag-form {
+  background: #fff;
+  padding: 3rem;
+  border-radius: 24px;
+  border: 1px solid rgba(196,104,122,0.15);
+  box-shadow: 0 20px 50px rgba(122,48,72,0.1);
+  margin-top: 2.5rem;
+}
+
+.fragrance-intro {
+  text-align: center;
+  color: var(--text-mid);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.8;
+}
+
+/* 2. Responsive Grids */
+@media (max-width: 960px) {
+  /* Stack the Contact Page columns */
+  .contact-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* Stack the Name/Phone rows in both forms */
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .custom-frag-section {
+    padding: 3rem 1.5rem;
+  }
+
+  .custom-frag-form {
+    padding: 1.5rem;
+  }
+}
+
+/* 3. Button & Input Polish */
+.whatsapp-order-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  padding: 1rem;
+  border-radius: 12px;
+  width: 100%;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.whatsapp-order-btn:hover {
+  transform: scale(1.02);
+  background: #20ba5a;
+}
+
+.whatsapp-divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.whatsapp-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 1px; background: rgba(0,0,0,0.1);
+}
+
+.whatsapp-divider span {
+  background: #fff;
+  padding: 0 1rem;
+  position: relative;
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+/* Fix iOS Zoom Issue */
+.form-group input, 
+.form-group textarea, 
+.form-group select {
+  font-size: 16px !important; 
+  width: 100%;
+}
