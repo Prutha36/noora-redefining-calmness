@@ -17,7 +17,6 @@
   <div class="petal"></div><div class="petal"></div><div class="petal"></div>
 </div>
 
-<!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
     <img src="images/logo.png" alt="Noora" class="nav-logo-img"/>
@@ -29,7 +28,6 @@
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="shop.html" class="active">Shop</a></li>
-    <li><a href="fragrance.html">Fragrances</a></li>
     <li><a href="deals.html">Deals</a></li>
     <li><a href="about.html">Our Story</a></li>
     <li><a href="process.html">Process</a></li>
@@ -44,17 +42,15 @@
 <!-- SHOP -->
 <div id="shop-page">
   <div class="shop-inner">
-
     <div class="shop-header">
       <div class="floral-corner reveal" style="justify-content:center"><span>Our Collection</span></div>
       <p class="section-eyebrow reveal">Find Your Calm</p>
       <h2 class="section-title reveal">Scents that <em>bloom</em> within you</h2>
     </div>
 
-    <!-- SHOP MODE TABS -->
     <div class="shop-mode-tabs reveal">
-      <button class="shop-mode-tab active" onclick="setShopMode('category', this)">Shop by Category</button>
-      <button class="shop-mode-tab" onclick="setShopMode('fragrance', this)">Shop by Fragrance</button>
+      <button class="shop-mode-tab active" onclick="setShopMode('category',this)">Shop by Category</button>
+      <button class="shop-mode-tab" onclick="setShopMode('fragrance',this)">Shop by Fragrance</button>
     </div>
 
     <!-- CATEGORY VIEW -->
@@ -74,36 +70,92 @@
     </div>
 
     <!-- FRAGRANCE VIEW -->
-    <!-- FRAGRANCE VIEW -->
-<div id="fragranceView" style="display:none">
-  <div class="frag-family-tabs reveal" id="shopFragTabs">
-    <button class="frag-family-tab active" onclick="setShopFragFamily('all',this)">All Scents</button>
-    <button class="frag-family-tab" onclick="setShopFragFamily('floral',this)">🌸 Floral</button>
-    <button class="frag-family-tab" onclick="setShopFragFamily('fresh',this)">🌿 Fresh & Green</button>
-    <button class="frag-family-tab" onclick="setShopFragFamily('woody',this)">🕌 Woody & Arabic</button>
-    <button class="frag-family-tab" onclick="setShopFragFamily('fruity',this)">🍊 Fruity</button>
-    <button class="frag-family-tab" onclick="setShopFragFamily('cafe',this)">☕ Café</button>
-  </div>
-  <div class="fragrance-scents-grid" id="shopScentGrid"></div>
-  <div id="shopFragResults" style="display:none">
-    <div class="fragrance-results-header">
-      <div class="fragrance-results-label" id="shopFragLabel"></div>
-      <a href="fragrance.html" class="view-in-shop-btn">Browse all fragrances →</a>
+    <div id="fragranceView" style="display:none">
+      <div class="frag-family-tabs reveal" id="shopFragTabs">
+        <button class="frag-family-tab active" onclick="setShopFragFamily('all',this)">All Scents</button>
+        <button class="frag-family-tab" onclick="setShopFragFamily('floral',this)">🌸 Floral</button>
+        <button class="frag-family-tab" onclick="setShopFragFamily('fresh',this)">🌿 Fresh & Green</button>
+        <button class="frag-family-tab" onclick="setShopFragFamily('woody',this)">🕌 Woody & Arabic</button>
+        <button class="frag-family-tab" onclick="setShopFragFamily('fruity',this)">🍊 Fruity</button>
+        <button class="frag-family-tab" onclick="setShopFragFamily('cafe',this)">☕ Café</button>
+      </div>
+      <div class="fragrance-scents-grid" id="shopScentGrid"></div>
+      <div id="shopFragResults" style="display:none">
+        <div class="fragrance-results-header">
+          <div class="fragrance-results-label" id="shopFragLabel"></div>
+          <a href="shop.html" class="view-in-shop-btn">Browse all →</a>
+        </div>
+        <div class="products-grid" id="fragProductsGrid"></div>
+      </div>
     </div>
-    <div class="products-grid" id="fragProductsGrid"></div>
   </div>
 </div>
 
-      <!-- Scent pills shown after family selected -->
-      <div id="fragFamilyDetail" style="display:none">
-        <div class="frag-pills-label" id="fragPillsLabel"></div>
-        <div class="frag-pills-row" id="fragPillsRow"></div>
+<!-- CUSTOM FRAGRANCE REQUEST -->
+<div class="custom-frag-section">
+  <div class="custom-frag-inner">
+    <div class="floral-corner reveal" style="justify-content:center"><span>Custom Orders</span></div>
+    <p class="section-eyebrow reveal" style="text-align:center">Can't find your scent?</p>
+    <h2 class="section-title reveal" style="text-align:center">We'll craft it <em>for you</em></h2>
+    <p class="fragrance-intro reveal">Have a fragrance in mind that's not listed? Tell us what you're looking for and we'll make it happen.</p>
+    <div class="custom-frag-form reveal" id="customFragForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="cf-name" placeholder="Noora Al-Farsi"/>
+        </div>
+        <div class="form-group">
+          <label>Phone / WhatsApp</label>
+          <input type="tel" id="cf-phone" placeholder="+91 98765 43210"/>
+        </div>
       </div>
-
-      <!-- Products from fragrance filter -->
-      <div class="products-grid" id="fragProductsGrid"></div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="cf-email" placeholder="you@email.com"/>
+      </div>
+      <div class="form-group">
+        <label>Which candle design?</label>
+        <select id="cf-product" title="Candle design">
+          <option value="">Select a candle...</option>
+          <option>Amethyst Bloom</option><option>Garden Collection</option>
+          <option>Blush Orbit</option><option>Petal Reverie</option>
+          <option>Teddy Bloom</option><option>Serene Muse</option>
+          <option>Sunbeam Spiral</option><option>Satin Swirl</option>
+          <option>Alpine Twist</option><option>Satin Petal</option>
+          <option>Filigree Floral</option><option>Rosette Arch</option>
+          <option>Gilded Iris</option><option>Blossom Tarts</option>
+          <option>Lunar Bliss</option><option>Minted Roses</option>
+          <option>Moonlit Garden</option><option>Morning Meadow</option>
+          <option>Twilight Calm</option><option>Arabian Secret</option>
+          <option>Oud Bloom</option><option>Berry Blush Spritz</option>
+          <option>Amber Orange</option><option>Sunset Nectar</option>
+          <option>Ocean Breeze</option><option>Vanilla Latte</option>
+          <option>Iced Coffee Latte</option><option>Iced Strawberry Matcha Latte</option>
+          <option>Mango Frost</option><option>Not sure — help me choose</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Describe your fragrance idea</label>
+        <textarea id="cf-desc" placeholder="e.g. Something that smells like a rainy garden, or a blend of sandalwood and jasmine..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Quantity needed</label>
+        <select id="cf-qty" title="Quantity needed">
+          <option>1 candle</option>
+          <option>2–5 candles</option>
+          <option>6–10 candles</option>
+          <option>10+ candles (bulk order)</option>
+        </select>
+      </div>
+      <div class="custom-frag-btns">
+        <button class="btn-primary" style="width:100%;text-align:center;" onclick="sendCustomFragEmail()">Send by Email ✿</button>
+        <div class="whatsapp-divider"><span>or</span></div>
+        <button class="whatsapp-order-btn" onclick="sendCustomFragWhatsApp()">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Send via WhatsApp
+        </button>
+      </div>
     </div>
-
   </div>
 </div>
 
@@ -129,16 +181,13 @@
 <footer>
   <div class="footer-brand">
     <a href="index.html" class="footer-logo">
-      <img src="images/logo.png" alt="Noora" class="footer-logo-img"/>
-      Noora
+      <img src="images/logo.png" alt="Noora" class="footer-logo-img"/>Noora
     </a>
     <p>Redefining Calmness — one candle at a time. Handpoured with love in small batches.</p>
   </div>
   <div><h5>Shop</h5><ul>
-    <li><a href="shop.html">Scented Candles</a></li>
-    <li><a href="shop.html">Pillar Candles</a></li>
-    <li><a href="shop.html">Container Candles</a></li>
-    <li><a href="shop.html">Gift Sets</a></li>
+    <li><a href="shop.html">All Candles</a></li>
+    <li><a href="deals.html">Deals</a></li>
   </ul></div>
   <div><h5>Info</h5><ul>
     <li><a href="about.html">Our Story</a></li>
@@ -146,7 +195,7 @@
     <li><a href="contact.html">Contact</a></li>
   </ul></div>
   <div><h5>Follow Along</h5><ul>
-    <li><a href="https://instagram.com/candlesby_noora">Instagram ✿</a></li>
+    <li><a href="https://instagram.com/candlesby_noora" target="_blank" rel="noopener">Instagram ✿</a></li>
   </ul></div>
 </footer>
 <div class="footer-bottom">❀ © 2025 Noora. All rights reserved. Made with love ❀</div>
@@ -176,7 +225,6 @@
   </div>
   <div class="stripe-order-summary" id="orderSummary"></div>
   <div class="stripe-divider"></div>
-
   <div class="stripe-section-label">Your Details</div>
   <div class="stripe-field-row">
     <div class="stripe-field"><label>First Name</label><input type="text" id="sf-fname" placeholder="Noora"/></div>
@@ -184,8 +232,7 @@
   </div>
   <div class="stripe-field"><label>Phone</label><input type="tel" id="sf-phone" placeholder="+91 98765 43210"/></div>
   <div class="stripe-field"><label>Email</label><input type="email" id="sf-email" placeholder="you@email.com"/></div>
-  <div class="stripe-field"><label>Address</label><input type="text" id="sf-city" placeholder="Mumbai"/></div>
-
+  <div class="stripe-field"><label>City</label><input type="text" id="sf-city" placeholder="Mumbai"/></div>
   <div class="stripe-divider" style="margin-top:1.4rem"></div>
   <div class="stripe-section-label">Coupon Code</div>
   <div class="coupon-row">
@@ -198,10 +245,8 @@
     <span id="couponAppliedLabel"></span>
     <button class="coupon-remove-btn" onclick="removeCoupon()">Remove</button>
   </div>
-
   <div class="stripe-divider" style="margin-top:1.4rem"></div>
   <div class="stripe-section-label">Pay via UPI</div>
-
   <div class="upi-panel">
     <div class="upi-badge"><div class="upi-dot"></div>UPI</div>
     <div class="upi-id-box">
@@ -214,7 +259,7 @@
     <p class="upi-name" id="upiName"></p>
     <div class="upi-qr-placeholder" id="upiQrImg" onclick="openQrLightbox()">
       <span style="font-size:2rem">📷</span>
-      <small>Add your QR to<br>images/upi-qr.jpeg</small>
+      <small>Add your QR to<br>images/UPI Id.jpeg</small>
     </div>
     <div class="upi-steps">
       <h4>How to pay</h4>
@@ -225,13 +270,44 @@
     </div>
     <button class="upi-confirm-btn" onclick="confirmUpiPayment()">✿ I've Paid — Confirm My Order</button>
   </div>
-
   <div class="whatsapp-divider"><span>or</span></div>
-
   <button class="whatsapp-order-btn" onclick="orderViaWhatsApp()">
     <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     Order via WhatsApp
   </button>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="product-modal-overlay" id="productModalOverlay" onclick="closeProductModal()"></div>
+<div class="product-modal" id="productModal">
+  <div class="product-modal-inner">
+    <div class="modal-img-col">
+      <button class="modal-close-mobile" onclick="closeProductModal()">✕</button>
+      <img src="" alt="" id="modal-img" class="modal-product-img"/>
+      <span class="modal-tag" id="modal-tag" style="display:none"></span>
+    </div>
+    <div class="modal-options-col">
+      <button class="modal-close" onclick="closeProductModal()">✕</button>
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-price" id="modal-price"></div>
+      <div id="modal-colour-section" style="display:none">
+        <div class="modal-section-label">Colour</div>
+        <div class="modal-swatches-row" id="modal-swatches"></div>
+      </div>
+      <div class="modal-section-label">Fragrance</div>
+      <div class="modal-frags-wrap" id="modal-frags"></div>
+      <div class="modal-section-label">Size</div>
+      <div class="modal-sizes-row" id="modal-sizes"></div>
+      <div class="modal-footer">
+        <div class="modal-qty-row">
+          <button class="modal-qty-btn" onclick="changeModalQty(-1)">−</button>
+          <span class="modal-qty-num" id="modal-qty">1</span>
+          <button class="modal-qty-btn" onclick="changeModalQty(1)">+</button>
+        </div>
+        <button class="modal-add-btn" onclick="addToCartFromModal()">Add to Cart ✿</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>

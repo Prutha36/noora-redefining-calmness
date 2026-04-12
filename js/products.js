@@ -1,526 +1,407 @@
-const SCENT_GROUPS = {
-  sculpted: [
-    'French Lavender','Lavender Fresh','Rose & Lotus','Pink Rose',
-    'Red Rose','Jasmine','Mogra','Sakura','Orchid','White Tea',
-    'Butterfly Pea','Ylang Ylang','Sweet Osmanthus','Lotus',
-    'Pear & Freesia','Cherry Blossom','Lemongrass',
-  ],
-  pillar: [
-    'Eucalyptus','Peppermint','Rose & Lotus','Lemongrass',
-    'Rosemary','Orange & Eucalyptus','Mogra','Jasmine','Periwinkle',
-  ],
-  floral_jar: [
-    'Jasmine & Mogra','Lemon Grass','Calming Lavender',
-    'Berry Blast','Citrus Punch','Sun Ripened Orange',
-    'Peach, Mango & Strawberry','Fresh Ocean',
-    'Rose & Lotus','Lemongrass & Chamomile',
-  ],
-  arabic: [
-    'Arabic Fragrance','Agarwood & Rose','Sandalwood',
-    'Patchouli','Cinnamon','Midnight','Opium','Suede',
-  ],
-  cafe: [
-    'Strawberry frappuccino','Mocha cookie crumble frappuccino',
-    'Smooth Vanilla','Matcha latte','Brewed Coffee',
-    'Pistachio Latte','Caramel Drizzle','White Chocolate Mocha',
-    'Caramel Swirl','Creamy Milk','Light Cocoa',
-    'Dubai Chocolate Mocha','Mango & Ice',
-    'Sweet Caramel','Vanilla','Coconut',
-  ],
-};
+/* ============================================================
+   js/products.js — Noora Candles Product Catalog
+   ============================================================ */
 
-const products = [
-  {
-    id: 1, name: 'Amethyst Bloom', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🌹', tag: 'Gift',
-    image: 'images/products/amethyst-bloom-purple.jpg',
-    basePrice: 749, scentGroup: 'sculpted',
-    priceMap: {
-      'Velvet Rose & Oud': 849, 'Mogra': 849,
-      'Ylang Ylang': 849, 'Orchid': 849,
+   function makeFragrances(scents, basePrice, priceMap, imageMap, defaultImage) {
+    return scents.map(n => ({
+      name:  n,
+      price: (priceMap && priceMap[n]) ? priceMap[n] : basePrice,
+      image: (imageMap && imageMap[n]) ? imageMap[n] : defaultImage,
+    }));
+  }
+  
+  const SCENTS = {
+    amethystBloom: [
+      'French Lavender','Rose & Lotus','Rose','White Tea',
+      'Sakura','Lily','Orchid','Lotus','Jasmine','Frangipani','Champaka','Cherry Blossom',
+    ],
+    teddyBloom: [
+      'Lavender','Rose & Lotus','Pink Rose',
+      'Sweet Osmanthus','Strawberry','Peach','Vanilla','Candy Melon','Cherry Blossom',
+    ],
+    sunbeamSpiral: [
+      'Lavender','Sakura','Orchid','White Tea',
+      'Ocean Breeze','Lemon','Bergamot','Orange','Mix Fruit','Sandalwood','Patchouli',
+    ],
+    satinSwirl: [
+      'French Lavender','Lavender Fresh','White Tea','Eucalyptus',
+      'Ocean Breeze','Bergamot','Sandalwood','Patchouli','White Mask',
+    ],
+    rosetteArch: [
+      'Rose & Lotus','Pink Rose','Red Rose','Lavender',
+      'Strawberry','Vanilla','Cherry Blossom',
+    ],
+    satinPetal: [
+      'Rose & Lotus','Pink Rose','Red Rose','Black Rose','Lavender',
+      'Sakura','Lotus','Jasmine','Frangipani','Champaka','Cherry Blossom',
+    ],
+    petalReverie: [
+      'Lavender','Lily','Orchid','Pink Rose','Lotus','Champaka',
+    ],
+    lunarBliss: [
+      'Lavender','White Tea','Lily','Sweet Osmanthus',
+      'Ocean Breeze','Lemon','Bergamot','Vanilla','Sandalwood',
+    ],
+    glidingIris: [
+      'Frangipani','Lotus','Champaka','Lavender',
+      'White Tea','Orchid','Lily','Ocean Breeze',
+    ],
+    filigreeFloral: [
+      'Rose & Lotus','Pink Rose','Red Rose','French Lavender','Lavender Fresh','Cherry Blossom',
+    ],
+    blushOrbit: [
+      'Rose & Lotus','Pink Rose','Sakura','Lavender',
+      'Strawberry','Peach','Candy Melon','Watermelon','Cherry Blossom',
+    ],
+    blossomTarts: [
+      'Vanilla','Strawberry','Chocolate','Coffee','French Lavender','Lavender Fresh',
+      'Pink Rose','Sweet Osmanthus','Vanilla & Mint',
+    ],
+    alpineTwist: [
+      'Lavender','White Tea','Eucalyptus','Ocean Breeze',
+      'Bergamot','Lemon','Sandalwood','Patchouli','Cinnamon','White Mask','Suede',
+    ],
+    gardenCollection: [
+      'Rose & Lotus','Pink Rose','Red Rose','Lavender', 'Mogra',
+      'Lily','Orchid','Sakura','Lotus','Champaka','Jasmine','Cherry Blossom',
+    ],
+    mintedRoses: [
+      'Rose & Lotus','Pink Rose','Red Rose','Lavender',
+      'Eucalyptus','Ocean Breeze','Patchouli','Sandalwood','Vanilla & Mint',
+    ],
+    sereneMuse: [
+      'Lavender','White Tea','Lily','Orchid',
+      'Ocean Breeze','Sandalwood','Agarwood',
+    ],
+    cafe: [
+      'Strawberry frappuccino','Mocha cookie crumble','Smooth Vanilla','Matcha latte',
+      'Brewed Coffee','Pistachio Latte','Caramel Drizzle','White Chocolate Mocha',
+      'Caramel Swirl','Creamy Milk','Light Cocoa','Dubai Chocolate','Vanilla',
+    ],
+    floralJar: [
+      'Jasmine & Mogra','Lemon Grass','Calming Lavender','Berry Blast','Citrus Punch',
+      'Sun Ripened Orange','Peach, Mango & Strawberry','Fresh Ocean',
+      'Rose & Lotus','Lemongrass & Chamomile',
+    ],
+    arabic: [
+      'Arabic Fragrance','Agarwood & Rose','Sandalwood',
+      'Patchouli','Cinnamon','Midnight','Opium','Suede',
+    ],
+  };
+  
+  const products = [
+    {
+      id: 1, name: 'Amethyst Bloom', category: 'Sculpted',
+      fragranceFamily: ['floral'], emoji: '🌹', tag: 'Gift',
+      image: 'images/products/Amethyst Bloom/Lavender.jpg',
+      basePrice: 749, scentKey: 'amethystBloom',
+      priceMap: { 'Orchid': 849, 'Champaka': 849, 'Frangipani': 849 },
+      imageMap: {
+        'French Lavender': 'images/products/Amethyst Bloom/Lavender.jpg',
+        'Frangipani':      'images/products/Amethyst Bloom/Lavender.jpg',
+        'Jasmine':         'images/products/Amethyst Bloom/butterfly pea.png',
+        'White Tea':       'images/products/Amethyst Bloom/pearl white.png',
+        'Lily':            'images/products/Amethyst Bloom/pearl white.png',
+        'Lotus':           'images/products/Amethyst Bloom/pearl white.png',
+        'Rose & Lotus':    'images/products/Amethyst Bloom/blush pink.png',
+        'Pink Rose':       'images/products/Amethyst Bloom/blush pink.png',
+        'Sakura':          'images/products/Amethyst Bloom/beige.png',
+        'Cherry Blossom':  'images/products/Amethyst Bloom/blush pink.png',
+        'Red Rose':        'images/products/Amethyst Bloom/burgundy.png',
+        'Orchid':          'images/products/Amethyst Bloom/butterfly pea.png',
+      },
+      sizes: [ { label: '70g', priceAdd: 0 } ],
     },
-    imageMap: {
-      'French Lavender':   'images/products/amethyst-bloom-purple.jpg',
-      'Lavender Fresh':    'images/products/amethyst-bloom-purple.jpg',
-      'Butterfly Pea':     'images/products/amethyst-bloom-blue.jpg',
-      'Mogra':             'images/products/amethyst-bloom-beige.jpg',
-      'Sweet Osmanthus':   'images/products/amethyst-bloom-beige.jpg',
-      'Jasmine':           'images/products/amethyst-bloom-white.jpg',
-      'White Tea':         'images/products/amethyst-bloom-white.jpg',
-      'Pear & Freesia':    'images/products/amethyst-bloom-white.jpg',
-      'Rose & Lotus':      'images/products/amethyst-bloom-pink.jpg',
-      'Pink Rose':         'images/products/amethyst-bloom-pink.jpg',
-      'Cherry Blossom':    'images/products/amethyst-bloom-pink.jpg',
-      'Red Rose':          'images/products/amethyst-bloom-burgundy.jpg',
-      'Velvet Rose & Oud': 'images/products/amethyst-bloom-burgundy.jpg',
+    {
+      id: 2, name: 'Garden Collection', category: 'Sculpted',
+      fragranceFamily: ['floral'], emoji: '🌿', tag: '',
+      image: 'images/products/Garden Collection/green.jpeg',
+      basePrice: 399, scentKey: 'gardenCollection',
+      priceMap: { 'Champaka': 499, 'Frangipani': 499 },
+      imageMap: {
+        'French Lavender': 'images/products/Garden Collection/Purple.png',
+        'Champaka':        'images/products/Garden Collection/green.jpeg',
+        'Orchid':          'images/products/Garden Collection/green.jpeg',
+        'Jasmine':         'images/products/Garden Collection/periwinkle blue.jpeg',
+        'Lily':            'images/products/Garden Collection/yellow.jpeg',
+        'Lotus':           'images/products/Garden Collection/Pearl White.jpeg',
+        'Rose & Lotus':    'images/products/Garden Collection/Dusty Pink.jpeg',
+        'Pink Rose':       'images/products/Garden Collection/pink.jpeg',
+        'Sakura':          'images/products/Garden Collection/wam beige.jpeg',
+        'Cherry Blossom':  'images/products/Garden Collection/blue.jpeg',
+        'Red Rose':        'images/products/Garden Collection/burgundy.jpeg',
+        'Mogra':           'images/products/Garden Collection/Pearl White.jpeg',
+      },
+      sizes: [ { label: '70g', priceAdd: 0 } ],
     },
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 3, name: 'Iced Strawberry Matcha Latte', category: 'Cafe',
+      fragranceFamily: ['cafe'], emoji: '🍓', tag: '',
+      image: 'images/products/strawberry latte.jpg',
+      basePrice: 1149, scentKey: 'cafe',
+      priceMap: { 'Brewed Coffee': 1199, 'White Chocolate Mocha': 1199, 'Light Cocoa': 1199, 'Dubai Chocolate': 1199 },
+      imageMap: {},
+      sizes: [ { label: '120g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '70g', priceAdd: 0 } ],
-  },
-  {
-    id: 2, name: 'Garden Collection', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🌿', tag: '',
-    image: 'images/products/garden collection.png',
-    basePrice: 399, scentGroup: 'sculpted',
-    priceMap: {
-      'Mogra': 499, 'Velvet Rose & Oud': 499, 'Lavender Fresh': 449,
+    {
+      id: 4, name: 'Vanilla Latte', category: 'Cafe',
+      fragranceFamily: ['cafe'], emoji: '☕', tag: 'Refreshing',
+      image: 'images/products/Vanilla Latte.jpeg',
+      basePrice: 1049, scentKey: 'cafe',
+      priceMap: { 'Brewed Coffee': 1199, 'White Chocolate Mocha': 1099, 'Light Cocoa': 1199, 'Dubai Chocolate': 1199 },
+      imageMap: {},
+      sizes: [ { label: '120g', priceAdd: 0 } ],
     },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 5, name: 'Iced Coffee Latte', category: 'Cafe',
+      fragranceFamily: ['cafe'], emoji: '🧊', tag: '',
+      image: 'images/products/Iced coffee latte.jpg',
+      basePrice: 1149, scentKey: 'cafe',
+      priceMap: { 'Light Cocoa': 1199, 'Dubai Chocolate': 1199 },
+      imageMap: {},
+      sizes: [ { label: '120g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '70g', priceAdd: 0 } ],
-  },
-  {
-    id: 3, name: 'Iced Strawberry Matcha Latte', category: 'Cafe',
-    fragranceFamily: ['cafe','fruity'], emoji: '🍂', tag: '',
-    image: 'images/products/strawberry latte.jpg',
-    basePrice: 1149, scentGroup: 'cafe',
-    priceMap: { 'White Chocolate Mocha': 1199, 'Brewed Coffee': 1199, 'Light Cocoa': 1199 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 6, name: 'Serene Muse', category: 'Sculpted',
+      fragranceFamily: ['floral','fresh','woody'], emoji: '🎁', tag: 'Gift',
+      image: 'images/products/Serene Muse.jpg',
+      basePrice: 999, scentKey: 'sereneMuse',
+      priceMap: { 'Agarwood': 1199, 'Sandalwood': 1099, 'Orchid': 1099 },
+      imageMap: {},
+      sizes: [ { label: '80g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '120g', priceAdd: 0 } ],
-  },
-  {
-    id: 4, name: 'Vanilla Latte', category: 'Cafe',
-    fragranceFamily: ['cafe'], emoji: '🕯️', tag: 'Refreshing',
-    image: 'images/products/Vanilla Latte.jpeg',
-    basePrice: 1049, scentGroup: 'cafe',
-    priceMap: { 'Brewed Coffee': 1199, 'White Chocolate Mocha': 1099, 'Light Cocoa': 1199 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 7, name: 'Minted Roses', category: 'Pillar',
+      fragranceFamily: ['floral','fresh'], emoji: '🌲', tag: '',
+      image: 'images/products/minted roses.jpg',
+      basePrice: 899, scentKey: 'mintedRoses',
+      priceMap: { 'Sandalwood': 999, 'Patchouli': 999, 'Eucalyptus': 1099 },
+      imageMap: {},
+      sizes: [ { label: '80g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '120g', priceAdd: 0 } ],
-  },
-  {
-    id: 5, name: 'Iced Coffee Latte', category: 'Cafe',
-    fragranceFamily: ['cafe'], emoji: '🌸', tag: '',
-    image: 'images/products/Iced coffee latte.jpg',
-    basePrice: 1149, scentGroup: 'cafe',
-    priceMap: { 'Light Cocoa': 1199 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 8, name: 'Teddy Bloom', category: 'Sculpted',
+      fragranceFamily: ['floral','fruity'], emoji: '🧸', tag: 'New',
+      image: 'images/products/teddy bloom/teddy1.jpeg',
+      basePrice: 799, scentKey: 'teddyBloom',
+      priceMap: { 'Sweet Osmanthus': 849 },
+      imageMap: {},
+      sizes: [ { label: '70g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '120g', priceAdd: 0 } ],
-  },
-  {
-    id: 6, name: 'Serene Muse', category: 'Sculpted',
-    fragranceFamily: ['floral','fresh'], emoji: '🎁', tag: 'Gift',
-    image: 'images/products/Serene Muse.jpg',
-    basePrice: 999, scentGroup: 'sculpted',
-    priceMap: { 'Ylang Ylang': 1099, 'Orchid': 1099 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 9, name: 'Petal Reverie', category: 'Sculpted',
+      fragranceFamily: ['floral'], emoji: '🌸', tag: 'Gift',
+      image: 'images/products/Petal reverie/petal1.jpeg',
+      basePrice: 999, scentKey: 'petalReverie',
+      priceMap: { 'Champaka': 1099, 'Orchid': 1099 },
+      imageMap: {},
+      sizes: [ { label: '100g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '80g', priceAdd: 0 } ],
-  },
-  {
-    id: 7, name: 'Minted Roses', category: 'Pillar',
-    fragranceFamily: ['floral','fresh'], emoji: '🌲', tag: '',
-    image: 'images/products/minted roses.jpg',
-    basePrice: 899, scentGroup: 'pillar',
-    priceMap: {
-      'Eucalyptus': 1099, 'Lemongrass': 1099, 'Rose & Lotus': 999,
-      'Jasmine': 1099, 'Periwinkle': 899, 'Mogra': 949,
+    {
+      id: 10, name: 'Berry Blush Spritz', category: 'Floral',
+      fragranceFamily: ['fruity'], emoji: '🍸', tag: 'Limited',
+      image: 'images/products/Berry spritz.jpg',
+      basePrice: 950, scentKey: 'floralJar',
+      priceMap: { 'Berry Blast': 1199, 'Citrus Punch': 1099, 'Fresh Ocean': 1200 },
+      imageMap: {},
+      sizes: [ { label: '350g', priceAdd: 0 } ],
     },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 11, name: 'Blush Orbit', category: 'Sculpted',
+      fragranceFamily: ['floral','fruity'], emoji: '🌺', tag: 'New',
+      image: 'images/products/Blush Orbit/Blush orbit.jpg',
+      basePrice: 899, scentKey: 'blushOrbit',
+      priceMap: {},
+      imageMap: {},
+      sizes: [ { label: '130g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '80g', priceAdd: 0 } ],
-  },
-  {
-    id: 8, name: 'Teddy Bloom', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🧸', tag: 'New',
-    image: 'images/products/teddy bloom.jpg',
-    basePrice: 799, scentGroup: 'sculpted',
-    priceMap: { 'Mogra': 849, 'Orchid': 849 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 12, name: 'Mango Frost', category: 'Cafe',
+      fragranceFamily: ['cafe'], emoji: '🥭', tag: '',
+      image: 'images/products/Mango Frost.jpeg',
+      basePrice: 1049, scentKey: 'cafe',
+      priceMap: {},
+      imageMap: {},
+      sizes: [ { label: '120g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '70g', priceAdd: 0 } ],
-  },
-  {
-    id: 9, name: 'Petal Reverie', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🌸', tag: 'Gift',
-    image: 'images/products/petal reverie.jpg',
-    basePrice: 999, scentGroup: 'sculpted',
-    priceMap: { 'Mogra': 1099, 'Ylang Ylang': 1099, 'Orchid': 1099 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 13, name: 'Moonlit Garden', category: 'Floral',
+      fragranceFamily: ['floral'], emoji: '✨', tag: '',
+      image: 'images/products/Moonlit Graden .jpeg',
+      basePrice: 950, scentKey: 'floralJar',
+      priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
+      imageMap: {},
+      sizes: [ { label: '145g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '100g', priceAdd: 0 } ],
-  },
-  {
-    id: 10, name: 'Berry Blush Spritz', category: 'Floral',
-    fragranceFamily: ['fruity'], emoji: '🍸', tag: 'Limited',
-    image: 'images/products/Berry spritz.jpg',
-    basePrice: 950, scentGroup: 'floral_jar',
-    priceMap: { 'Berry Blast': 1199, 'Citrus Punch': 1099, 'Fresh Ocean': 1200 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 14, name: 'Morning Meadow', category: 'Floral',
+      fragranceFamily: ['fresh'], emoji: '🍃', tag: '',
+      image: 'images/products/Morning Meadow .jpeg',
+      basePrice: 950, scentKey: 'floralJar',
+      priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
+      imageMap: {},
+      sizes: [ { label: '145g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '350g', priceAdd: 0 } ],
-  },
-  {
-    id: 11, name: 'Blush Orbit', category: 'Sculpted',
-    fragranceFamily: ['floral','fruity','fresh'], emoji: '🌺', tag: 'New',
-    image: 'images/products/Blush orbit.jpg',
-    basePrice: 899, scentGroup: 'sculpted',
-    priceMap: { 'Mogra': 1149, 'Ylang Ylang': 1049, 'Orchid': 1049, 'Velvet Rose & Oud': 949 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 15, name: 'Sunset Nectar', category: 'Floral',
+      fragranceFamily: ['fruity'], emoji: '🍑', tag: 'Limited',
+      image: 'images/products/Sunset Nectar.jpeg',
+      basePrice: 950, scentKey: 'floralJar',
+      priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
+      imageMap: {},
+      sizes: [ { label: '145g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '130g', priceAdd: 0 } ],
-  },
-  {
-    id: 12, name: 'Mango Frost', category: 'Cafe',
-    fragranceFamily: ['fruity','cafe'], emoji: '🧊', tag: '',
-    image: 'images/products/Mango Frost.jpeg',
-    basePrice: 1049, scentGroup: 'cafe',
-    priceMap: {},
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 16, name: 'Ocean Breeze', category: 'Floral',
+      fragranceFamily: ['fresh'], emoji: '🌊', tag: 'Limited',
+      image: 'images/products/Ocean Breeze .jpeg',
+      basePrice: 950, scentKey: 'floralJar',
+      priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
+      imageMap: {},
+      sizes: [ { label: '200g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '120g', priceAdd: 0 } ],
-  },
-  {
-    id: 13, name: 'Moonlit Garden', category: 'Floral',
-    fragranceFamily: ['floral'], emoji: '✨', tag: '',
-    image: 'images/products/Moonlit Graden .jpeg',
-    basePrice: 950, scentGroup: 'floral_jar',
-    priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199, 'Citrus Punch': 1099 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 17, name: 'Arabian Secret', category: 'Arabic',
+      fragranceFamily: ['woody'], emoji: '🕌', tag: 'BestSeller',
+      image: 'images/products/Arabian Secret .jpeg',
+      basePrice: 999, scentKey: 'arabic',
+      priceMap: { 'Agarwood & Rose': 1200, 'Midnight': 1099, 'Opium': 1099, 'Suede': 1099 },
+      imageMap: {},
+      sizes: [ { label: '145g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '145g', priceAdd: 0 } ],
-  },
-  {
-    id: 14, name: 'Morning Meadow', category: 'Floral',
-    fragranceFamily: ['fresh'], emoji: '🍃', tag: '',
-    image: 'images/products/Morning Meadow .jpeg',
-    basePrice: 950, scentGroup: 'floral_jar',
-    priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199, 'Citrus Punch': 1099 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 18, name: 'Oud Bloom', category: 'Arabic',
+      fragranceFamily: ['woody'], emoji: '🌹', tag: 'BestSeller',
+      image: 'images/products/Oud Bloom.jpeg',
+      basePrice: 999, scentKey: 'arabic',
+      priceMap: { 'Agarwood & Rose': 1200, 'Midnight': 1099, 'Opium': 1099, 'Suede': 1099 },
+      imageMap: {},
+      sizes: [ { label: '145g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '145g', priceAdd: 0 } ],
-  },
-  {
-    id: 15, name: 'Sunset Nectar', category: 'Floral',
-    fragranceFamily: ['fruity'], emoji: '♥️', tag: 'Limited',
-    image: 'images/products/Sunset Nectar.jpeg',
-    basePrice: 950, scentGroup: 'floral_jar',
-    priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199, 'Citrus Punch': 1099 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 19, name: 'Amber Orange', category: 'Floral',
+      fragranceFamily: ['fruity'], emoji: '🍊', tag: 'Limited',
+      image: 'images/products/Amber Orange.jpeg',
+      basePrice: 950, scentKey: 'floralJar',
+      priceMap: { 'Sun Ripened Orange': 990, 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
+      imageMap: {},
+      sizes: [ { label: '145g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '145g', priceAdd: 0 } ],
-  },
-  {
-    id: 16, name: 'Ocean Breeze', category: 'Floral',
-    fragranceFamily: ['fresh'], emoji: '🌊', tag: 'Limited',
-    image: 'images/products/Ocean Breeze .jpeg',
-    basePrice: 950, scentGroup: 'floral_jar',
-    priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199, 'Citrus Punch': 1099 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 20, name: 'Twilight Calm', category: 'Floral',
+      fragranceFamily: ['floral'], emoji: '🪻', tag: '',
+      image: 'images/products/Twilight Calm.jpeg',
+      basePrice: 950, scentKey: 'floralJar',
+      priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
+      imageMap: {},
+      sizes: [ { label: '145g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '200g', priceAdd: 0 } ],
-  },
-  {
-    id: 17, name: 'Arabian Secret', category: 'Arabic',
-    fragranceFamily: ['woody'], emoji: '🕌', tag: 'BestSeller',
-    image: 'images/products/Arabian Secret .jpeg',
-    basePrice: 999, scentGroup: 'arabic',
-    priceMap: { 'Agarwood & Rose': 1200, 'Midnight': 1099, 'Opium': 1099, 'Suede': 1099 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 21, name: 'Sunbeam Spiral', category: 'Sculpted',
+      fragranceFamily: ['floral','fresh','fruity'], emoji: '🌀', tag: 'New',
+      image: 'images/products/sunbeam spiral/sunbeam1.jpeg',
+      basePrice: 749, scentKey: 'sunbeamSpiral',
+      priceMap: { 'Sandalwood': 849, 'Patchouli': 849 },
+      imageMap: {},
+      sizes: [ { label: '70g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '145g', priceAdd: 0 } ],
-  },
-  {
-    id: 18, name: 'Oud Bloom', category: 'Arabic',
-    fragranceFamily: ['woody'], emoji: '🌹', tag: 'BestSeller',
-    image: 'images/products/Oud Bloom.jpeg',
-    basePrice: 999, scentGroup: 'arabic',
-    priceMap: { 'Agarwood & Rose': 1200, 'Midnight': 1099, 'Opium': 1099, 'Suede': 1099 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 22, name: 'Satin Swirl', category: 'Sculpted',
+      fragranceFamily: ['floral','fresh','woody'], emoji: '🌸', tag: '',
+      image: 'images/products/satin swirl/swirl1.jpeg',
+      basePrice: 749, scentKey: 'satinSwirl',
+      priceMap: { 'Sandalwood': 849, 'Patchouli': 849 },
+      imageMap: {},
+      sizes: [ { label: '70g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '145g', priceAdd: 0 } ],
-  },
-  {
-    id: 19, name: 'Amber Orange', category: 'Floral',
-    fragranceFamily: ['fruity'], emoji: '🍊', tag: 'Limited',
-    image: 'images/products/Amber Orange.jpeg',
-    basePrice: 950, scentGroup: 'floral_jar',
-    priceMap: { 'Sun Ripened Orange': 990, 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 23, name: 'Alpine Twist', category: 'Sculpted',
+      fragranceFamily: ['floral','fresh','woody'], emoji: '🌿', tag: '',
+      image: 'images/products/Alpine twist/Twist1.jpeg',
+      basePrice: 749, scentKey: 'alpineTwist',
+      priceMap: { 'Sandalwood': 849, 'Patchouli': 849, 'Suede': 849, 'Cinnamon': 849 },
+      imageMap: {},
+      sizes: [ { label: '70g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '145g', priceAdd: 0 } ],
-  },
-  {
-    id: 20, name: 'Twilight Calm', category: 'Floral',
-    fragranceFamily: ['floral'], emoji: '🪻', tag: '',
-    image: 'images/products/Twilight Calm.jpeg',
-    basePrice: 950, scentGroup: 'floral_jar',
-    priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199, 'Citrus Punch': 1099 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 24, name: 'Satin Petal', category: 'Sculpted',
+      fragranceFamily: ['floral'], emoji: '🌹', tag: '',
+      image: 'images/products/Satin Petal/petal1.jpg',
+      basePrice: 749, scentKey: 'satinPetal',
+      priceMap: { 'Champaka': 849, 'Frangipani': 849 },
+      imageMap: {},
+      sizes: [ { label: '70g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '145g', priceAdd: 0 } ],
-  },
-  {
-    id: 21, name: 'Sunbeam Spiral', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🌹', tag: 'New',
-    image: 'images/products/amethyst bloom.jpg',
-    basePrice: 749, scentGroup: 'sculpted',
-    priceMap: { 'Mogra': 849, 'Orchid': 849, 'Ylang Ylang': 849 },
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 25, name: 'Filigree Floral', category: 'Sculpted',
+      fragranceFamily: ['floral'], emoji: '🌸', tag: '',
+      image: 'images/products/Filigree floral/Floral1.jpeg',
+      basePrice: 749, scentKey: 'filigreeFloral',
+      priceMap: {},
+      imageMap: {},
+      sizes: [ { label: '70g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '70g', priceAdd: 0 } ],
-  },
-  {
-    id: 22, name: 'Satin Swirl', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🌹', tag: '',
-    image: 'images/products/amethyst bloom.jpg',
-    basePrice: 749, scentGroup: 'sculpted',
-    priceMap: {},
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 26, name: 'Rosette Arch', category: 'Sculpted',
+      fragranceFamily: ['floral','fruity'], emoji: '🌹', tag: '',
+      image: 'images/products/Rosette Arch/Arch1.jpg',
+      basePrice: 749, scentKey: 'rosetteArch',
+      priceMap: {},
+      imageMap: {},
+      sizes: [ { label: '70g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '70g', priceAdd: 0 } ],
-  },
-  {
-    id: 23, name: 'Alpine Twist', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🌹', tag: '',
-    image: 'images/products/amethyst bloom.jpg',
-    basePrice: 749, scentGroup: 'sculpted',
-    priceMap: {},
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 27, name: 'Gliding Iris', category: 'Sculpted',
+      fragranceFamily: ['floral','fresh'], emoji: '🪻', tag: '',
+      image: 'images/products/Gliding Iris/Iris1.jpeg',
+      basePrice: 749, scentKey: 'glidingIris',
+      priceMap: { 'Champaka': 849, 'Frangipani': 849 },
+      imageMap: {},
+      sizes: [ { label: '70g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '70g', priceAdd: 0 } ],
-  },
-  {
-    id: 24, name: 'Satin Petal', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🌹', tag: '',
-    image: 'images/products/amethyst bloom.jpg',
-    basePrice: 749, scentGroup: 'sculpted',
-    priceMap: {},
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 28, name: 'Blossom Tarts', category: 'Sculpted',
+      fragranceFamily: ['floral','cafe','fruity'], emoji: '🧁', tag: '',
+      image: 'images/products/Blossom Tarts/tart1.jpeg',
+      basePrice: 749, scentKey: 'blossomTarts',
+      priceMap: { 'Coffee': 849, 'Chocolate': 849 },
+      imageMap: {},
+      sizes: [ { label: '70g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '70g', priceAdd: 0 } ],
-  },
-  {
-    id: 25, name: 'Filigree Floral', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🌹', tag: '',
-    image: 'images/products/amethyst bloom.jpg',
-    basePrice: 749, scentGroup: 'sculpted',
-    priceMap: {},
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 29, name: 'Lunar Bliss', category: 'Sculpted',
+      fragranceFamily: ['floral','fresh'], emoji: '🌙', tag: '',
+      image: 'images/products/Lunar Bliss/1.jpg',
+      basePrice: 749, scentKey: 'lunarBliss',
+      priceMap: { 'Sandalwood': 849 },
+      imageMap: {},
+      sizes: [ { label: '70g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '70g', priceAdd: 0 } ],
-  },
-  {
-    id: 26, name: 'Rosette Arch', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🌹', tag: '',
-    image: 'images/products/amethyst bloom.jpg',
-    basePrice: 749, scentGroup: 'sculpted',
-    priceMap: {},
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
+    {
+      id: 30, name: 'Cupcake', category: 'Floral',
+      fragranceFamily: ['floral','fruity'], emoji: '🧁', tag: 'New',
+      image: 'images/products/Cupcake/cake1.jpeg',
+      basePrice: 949, scentKey: 'floralJar',
+      priceMap: {},
+      imageMap: {},
+      sizes: [ { label: '145g', priceAdd: 0 } ],
     },
-    sizes: [ { label: '70g', priceAdd: 0 } ],
-  },
-  {
-    id: 27, name: 'Gilded Iris', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🌹', tag: '',
-    image: 'images/products/amethyst bloom.jpg',
-    basePrice: 749, scentGroup: 'sculpted',
-    priceMap: {},
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
-    },
-    sizes: [ { label: '70g', priceAdd: 0 } ],
-  },
-  {
-    id: 28, name: 'Blossom Tarts', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🌹', tag: '',
-    image: 'images/products/amethyst bloom.jpg',
-    basePrice: 749, scentGroup: 'sculpted',
-    priceMap: {},
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
-    },
-    sizes: [ { label: '70g', priceAdd: 0 } ],
-  },
-  {
-    id: 29, name: 'Lunar Bliss', category: 'Sculpted',
-    fragranceFamily: ['floral'], emoji: '🌹', tag: '',
-    image: 'images/products/amethyst bloom.jpg',
-    basePrice: 749, scentGroup: 'sculpted',
-    priceMap: {},
-    imageMap: {},
-    get fragrances() {
-      return SCENT_GROUPS[this.scentGroup].map(n => ({
-        name:  n,
-        price: this.priceMap?.[n] ?? this.basePrice,
-        image: this.imageMap?.[n] ?? this.image,
-      }));
-    },
-    sizes: [ { label: '70g', priceAdd: 0 } ],
-  },
-];
-
-const siteImages = {
-  hero:   'images/products/Hero.png',
-  about1: 'images/products/about 1.jpeg',
-  about2: 'images/products/about 2.jpeg',
-  about3: 'images/products/about 3.jpeg',
-};
+  ];
+  
+  /* ── Populate .fragrances for every product ── */
+  products.forEach(function(p) {
+    p.fragrances = makeFragrances(
+      SCENTS[p.scentKey],
+      p.basePrice,
+      p.priceMap,
+      p.imageMap,
+      p.image
+    );
+  });
+  
+  const siteImages = {
+    hero:   'images/products/Hero.png',
+    about1: 'images/products/about 1.jpeg',
+    about2: 'images/products/about 2.jpeg',
+    about3: 'images/products/about 3.jpeg',
+  };
