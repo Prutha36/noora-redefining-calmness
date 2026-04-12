@@ -18,6 +18,9 @@
 </div>
 
 <!-- NAV -->
+<<!-- ═══════════════════════════════════════════════════════════
+     REPLACE YOUR <nav>…</nav> WITH THIS IN ALL HTML FILES
+     ═══════════════════════════════════════════════════════════ -->
 <nav>
   <a href="index.html" class="nav-logo">
     <img src="images/logo.png" alt="Noora" class="nav-logo-img"/>
@@ -26,6 +29,7 @@
       <span class="nav-logo-tagline">Redefining Calmness</span>
     </div>
   </a>
+
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="shop.html">Shop</a></li>
@@ -34,11 +38,40 @@
     <li><a href="process.html">Process</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
-  <button class="nav-cart" onclick="toggleCart()" aria-label="Cart">
-    🛒<span class="cart-count" id="cartCount">0</span>
-  </button>
-  <div id="navAuthBtn"></div>
+
+  <div class="nav-right">
+    <!-- Wishlist -->
+    <button class="nav-wishlist" onclick="openWishlistPanel()" aria-label="Wishlist">
+      🤍<span class="wishlist-count" id="wishlistCount"></span>
+    </button>
+    <!-- Cart -->
+    <button class="nav-cart" onclick="toggleCart()" aria-label="Cart">
+      🛒<span class="cart-count" id="cartCount">0</span>
+    </button>
+    <!-- Auth -->
+    <div id="navAuthBtn"></div>
+    <!-- Hamburger (mobile only) -->
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
+
+<!-- Mobile menu — place right after </nav> -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-logo">
+    <img src="images/logo.png" alt="Noora"/>Noora
+  </div>
+  <ul>
+    <li><a href="index.html"   onclick="closeMobileMenu()">Home</a></li>
+    <li><a href="shop.html"    onclick="closeMobileMenu()">Shop</a></li>
+    <li><a href="deals.html"   onclick="closeMobileMenu()">Deals</a></li>
+    <li><a href="about.html"   onclick="closeMobileMenu()">Our Story</a></li>
+    <li><a href="process.html" onclick="closeMobileMenu()">Process</a></li>
+    <li><a href="contact.html" onclick="closeMobileMenu()">Contact</a></li>
+  </ul>
+</div>
 
 <!-- DEALS PAGE -->
 <div id="deals-page">
@@ -86,8 +119,8 @@
           <div class="deal-card-code-wrap">
             <span class="deal-card-label">Your code</span>
             <div class="deal-card-code">
-              <span class="deal-code-text">NOORA10</span>
-              <button class="deal-copy-btn" onclick="copyCode('NOORA10', this)">Copy</button>
+              <span class="deal-code-text">NOORA30</span>
+              <button class="deal-copy-btn" onclick="copyCode('NOORA30', this)">Copy</button>
             </div>
           </div>
           <div class="deal-card-validity">Valid on orders of 3+ candles</div>

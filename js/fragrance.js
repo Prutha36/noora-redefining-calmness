@@ -6,7 +6,7 @@
     floral: {
       label: 'Floral',
       scents: [
-        'French Lavender','Lavender Fresh','Rose & Lotus','Pink Rose','Red Rose',
+        'French Lavender','Rose & Lotus','Pink Rose','Red Rose',
         'Black Rose','Jasmine','Sakura','Orchid','White Tea','Lily', 
         'Lotus','Frangipani','Champaka','Sweet Osmanthus',
         'Pear & Freesia','Cherry Blossom', 'Mogra'
@@ -48,7 +48,6 @@
   const SCENT_TO_PRODUCTS = {
     /* Floral */
     'French Lavender':   [1,2,6,7,8,9,11,21,22,23,24,25,26,27,28,29],
-    'Lavender Fresh':    [1,2,6,7,8,9,11,21,22,23,24,25,26,27,28,29],
     'Rose & Lotus':      [1,2,7,8,9,11,13,14,15,16,19,20,24,25,26,30],
     'Pink Rose':         [1,2,8,9,11,24,25,26,28],
     'Red Rose':          [1,2,7,24,25,26],
@@ -102,12 +101,13 @@
     'Passion Fruit':[10,19],
   
     /* Café */
-    'Vanilla':   [3,4,5,8,12,26,28,29],
-    'Coffee':    [3,4,5,12,28],
-    'Chocolate': [3,4,5,12,28],
-    'Caramel':   [3,4,5,12],
+    'Vanilla':   [3,4,5,8,12,26,28,29,33],
+    'Coffee':    [3,4,5,12,28,37],
+    'Chocolate': [3,4,5,12,28,35,36],
+    'Caramel':   [3,4,5,12,31,32],
     'Matcha':    [3,4,5,12],
     'Coconut':   [4,5,12],
+    'Milk': [34],
   };
   
   let activeScentFamily = 'all';

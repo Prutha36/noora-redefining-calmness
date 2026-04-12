@@ -1,14 +1,16 @@
 /* ============================================================
    js/products.js — Noora Candles Product Catalog
    ============================================================ */
-
-   function makeFragrances(scents, basePrice, priceMap, imageMap, defaultImage) {
-    return scents.map(n => ({
+ 
+function makeFragrances(scents, basePrice, priceMap, imageMap, defaultImage) {
+  return scents.map(function(n) {
+    return {
       name:  n,
       price: (priceMap && priceMap[n]) ? priceMap[n] : basePrice,
       image: (imageMap && imageMap[n]) ? imageMap[n] : defaultImage,
-    }));
-  }
+    };
+  });
+}
   
   const SCENTS = {
     amethystBloom: [
@@ -24,7 +26,7 @@
       'Ocean Breeze','Lemon','Bergamot','Orange','Mix Fruit','Sandalwood','Patchouli',
     ],
     satinSwirl: [
-      'French Lavender','Lavender Fresh','White Tea','Eucalyptus',
+      'French Lavender','White Tea','Eucalyptus',
       'Ocean Breeze','Bergamot','Sandalwood','Patchouli','White Mask',
     ],
     rosetteArch: [
@@ -54,7 +56,7 @@
       'Strawberry','Peach','Candy Melon','Watermelon','Cherry Blossom',
     ],
     blossomTarts: [
-      'Vanilla','Strawberry','Chocolate','Coffee','French Lavender','Lavender Fresh',
+      'Vanilla','Strawberry','Chocolate','Coffee','Lavender',
       'Pink Rose','Sweet Osmanthus','Vanilla & Mint',
     ],
     alpineTwist: [
@@ -73,20 +75,51 @@
       'Lavender','White Tea','Lily','Orchid',
       'Ocean Breeze','Sandalwood','Agarwood',
     ],
-    cafe: [
-      'Strawberry frappuccino','Mocha cookie crumble','Smooth Vanilla','Matcha latte',
-      'Brewed Coffee','Pistachio Latte','Caramel Drizzle','White Chocolate Mocha',
-      'Caramel Swirl','Creamy Milk','Light Cocoa','Dubai Chocolate','Vanilla',
-    ],
-    floralJar: [
-      'Jasmine & Mogra','Lemon Grass','Calming Lavender','Berry Blast','Citrus Punch',
-      'Sun Ripened Orange','Peach, Mango & Strawberry','Fresh Ocean',
-      'Rose & Lotus','Lemongrass & Chamomile',
-    ],
+
+    Mochacookiecrumble:['Mocha cookie crumble'],
+
+    SmoothVanilla:['Smooth Vanilla'],
+    CaramelDrizzle:['Caramel Drizzle'],
+    BrewedCoffee:['Brewed Coffee'],
+    WhiteChocolateMocha:['White Chocolate Mocha'],
+    CaramelSwirl:['Caramel Swirl'],
+    CreamyMilk:['Creamy Milk'],
+
+
+
     arabic: [
       'Arabic Fragrance','Agarwood & Rose','Sandalwood',
       'Patchouli','Cinnamon','Midnight','Opium','Suede',
     ],
+
+    latte: ['Iced Coffee Latte','Pistachio Latte','Matcha Latte','Vanilla Latte','Iced Strawberry Matcha Latte'],
+    
+
+    DubaiChocolate:['Dubai Chocolate'],
+
+    LightCocoa:['Light Cocoa'],
+
+    Spritz:['Berry Blush Spritz'],
+
+    MangoFrost:['Mango Frost'],
+
+    MoonlitGarden:['Moonlit Garden'],
+
+    MorningMeadow:['Morning Meadow'],
+
+    SunsetNectar:['Sunset Nectar'],
+
+    AmberOrange:['Amber Orange'],
+
+    OceanBreeze:['Ocean Breeze'],
+
+    TwilightCalm:['Twilight Calm'],
+
+    Cupcake:['Berry Cake', 'Chocolate Cake','Fruit Cake'],
+
+
+
+
   };
   
   const products = [
@@ -135,30 +168,38 @@
       sizes: [ { label: '70g', priceAdd: 0 } ],
     },
     {
-      id: 3, name: 'Iced Strawberry Matcha Latte', category: 'Cafe',
-      fragranceFamily: ['cafe'], emoji: '🍓', tag: '',
-      image: 'images/products/strawberry latte.jpg',
-      basePrice: 1149, scentKey: 'cafe',
-      priceMap: { 'Brewed Coffee': 1199, 'White Chocolate Mocha': 1199, 'Light Cocoa': 1199, 'Dubai Chocolate': 1199 },
+      id: 3, name: 'Dubai Chocolate', category: 'cafe',
+      fragranceFamily: ['cafe'], emoji: '☕', tag: '',
+      image: 'images/products/Dubai Chocolate.jpeg',
+      basePrice: 1149, scentKey: 'DubaiChocolate',
+      priceMap: { 'Dubai Chocolate': 1199,},
       imageMap: {},
       sizes: [ { label: '120g', priceAdd: 0 } ],
     },
     {
-      id: 4, name: 'Vanilla Latte', category: 'Cafe',
+      id: 4, name: 'Light Cocoa', category: 'Cafe',
       fragranceFamily: ['cafe'], emoji: '☕', tag: 'Refreshing',
-      image: 'images/products/Vanilla Latte.jpeg',
-      basePrice: 1049, scentKey: 'cafe',
-      priceMap: { 'Brewed Coffee': 1199, 'White Chocolate Mocha': 1099, 'Light Cocoa': 1199, 'Dubai Chocolate': 1199 },
+      image: 'images/products/Light Cocoa.png',
+      basePrice: 1049, scentKey: 'LightCocoa',
+      priceMap: {  'Light Cocoa': 1199, },
       imageMap: {},
       sizes: [ { label: '120g', priceAdd: 0 } ],
     },
     {
-      id: 5, name: 'Iced Coffee Latte', category: 'Cafe',
-      fragranceFamily: ['cafe'], emoji: '🧊', tag: '',
-      image: 'images/products/Iced coffee latte.jpg',
-      basePrice: 1149, scentKey: 'cafe',
-      priceMap: { 'Light Cocoa': 1199, 'Dubai Chocolate': 1199 },
-      imageMap: {},
+      id: 5, name: 'Latte', category: 'cafe',
+      fragranceFamily: ['latte'], emoji: '☕', tag: '',
+      image: 'images/products/strawberry latte.jpg',
+      basePrice: 1149, scentKey: 'latte',
+      priceMap: { 'Iced Coffee Latte': 1199, 'Vanilla Latte': 1199, 'Pistachio Latte': 1199, 'Matcha Latte':1199, 'Iced Strawberry Matcha Latte':1199 },
+      imageMap: {
+        'Iced Strawberry Matcha Latte': "images/products/strawberry latte.jpg",
+        'Iced Coffee Latte': "images/products/Iced coffee latte.jpg",
+        'Pistachio Latte':"images/products/Pistachio Latte.png",
+        'Matcha Latte':"images/products/Matcha Latte.png",
+        'Vanilla Latte':"images/products/Vanilla Latte.jpeg"
+
+        
+      },
       sizes: [ { label: '120g', priceAdd: 0 } ],
     },
     {
@@ -198,10 +239,10 @@
       sizes: [ { label: '100g', priceAdd: 0 } ],
     },
     {
-      id: 10, name: 'Berry Blush Spritz', category: 'Floral',
+      id: 10, name: 'Berry Blush Spritz', category: 'Exotic',
       fragranceFamily: ['fruity'], emoji: '🍸', tag: 'Limited',
       image: 'images/products/Berry spritz.jpg',
-      basePrice: 950, scentKey: 'floralJar',
+      basePrice: 950, scentKey: 'Spritz',
       priceMap: { 'Berry Blast': 1199, 'Citrus Punch': 1099, 'Fresh Ocean': 1200 },
       imageMap: {},
       sizes: [ { label: '350g', priceAdd: 0 } ],
@@ -216,46 +257,46 @@
       sizes: [ { label: '130g', priceAdd: 0 } ],
     },
     {
-      id: 12, name: 'Mango Frost', category: 'Cafe',
-      fragranceFamily: ['cafe'], emoji: '🥭', tag: '',
+      id: 12, name: 'Mango Frost', category: 'Exotic',
+      fragranceFamily: ['Fruity'], emoji: '🥭', tag: '',
       image: 'images/products/Mango Frost.jpeg',
-      basePrice: 1049, scentKey: 'cafe',
+      basePrice: 1049, scentKey: 'MangoFrost',
       priceMap: {},
       imageMap: {},
       sizes: [ { label: '120g', priceAdd: 0 } ],
     },
     {
-      id: 13, name: 'Moonlit Garden', category: 'Floral',
+      id: 13, name: 'Moonlit Garden', category: 'Exotic',
       fragranceFamily: ['floral'], emoji: '✨', tag: '',
       image: 'images/products/Moonlit Graden .jpeg',
-      basePrice: 950, scentKey: 'floralJar',
+      basePrice: 950, scentKey: 'MoonlitGarden',
       priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
       imageMap: {},
       sizes: [ { label: '145g', priceAdd: 0 } ],
     },
     {
-      id: 14, name: 'Morning Meadow', category: 'Floral',
+      id: 14, name: 'Morning Meadow', category: 'Exotic',
       fragranceFamily: ['fresh'], emoji: '🍃', tag: '',
       image: 'images/products/Morning Meadow .jpeg',
-      basePrice: 950, scentKey: 'floralJar',
+      basePrice: 950, scentKey: 'MorningMeadow',
       priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
       imageMap: {},
       sizes: [ { label: '145g', priceAdd: 0 } ],
     },
     {
-      id: 15, name: 'Sunset Nectar', category: 'Floral',
+      id: 15, name: 'Sunset Nectar', category: 'Exotic',
       fragranceFamily: ['fruity'], emoji: '🍑', tag: 'Limited',
       image: 'images/products/Sunset Nectar.jpeg',
-      basePrice: 950, scentKey: 'floralJar',
+      basePrice: 950, scentKey: 'SunsetNectar',
       priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
       imageMap: {},
       sizes: [ { label: '145g', priceAdd: 0 } ],
     },
     {
-      id: 16, name: 'Ocean Breeze', category: 'Floral',
+      id: 16, name: 'Ocean Breeze', category: 'Exotic',
       fragranceFamily: ['fresh'], emoji: '🌊', tag: 'Limited',
       image: 'images/products/Ocean Breeze .jpeg',
-      basePrice: 950, scentKey: 'floralJar',
+      basePrice: 950, scentKey: 'OceanBreeze',
       priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
       imageMap: {},
       sizes: [ { label: '200g', priceAdd: 0 } ],
@@ -279,19 +320,19 @@
       sizes: [ { label: '145g', priceAdd: 0 } ],
     },
     {
-      id: 19, name: 'Amber Orange', category: 'Floral',
+      id: 19, name: 'Amber Orange', category: 'Exotic',
       fragranceFamily: ['fruity'], emoji: '🍊', tag: 'Limited',
       image: 'images/products/Amber Orange.jpeg',
-      basePrice: 950, scentKey: 'floralJar',
+      basePrice: 950, scentKey: 'AmberOrange',
       priceMap: { 'Sun Ripened Orange': 990, 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
       imageMap: {},
       sizes: [ { label: '145g', priceAdd: 0 } ],
     },
     {
-      id: 20, name: 'Twilight Calm', category: 'Floral',
+      id: 20, name: 'Twilight Calm', category: 'Exotic',
       fragranceFamily: ['floral'], emoji: '🪻', tag: '',
       image: 'images/products/Twilight Calm.jpeg',
-      basePrice: 950, scentKey: 'floralJar',
+      basePrice: 950, scentKey: 'TwilightCalm',
       priceMap: { 'Fresh Ocean': 1200, 'Berry Blast': 1199 },
       imageMap: {},
       sizes: [ { label: '145g', priceAdd: 0 } ],
@@ -299,28 +340,61 @@
     {
       id: 21, name: 'Sunbeam Spiral', category: 'Sculpted',
       fragranceFamily: ['floral','fresh','fruity'], emoji: '🌀', tag: 'New',
-      image: 'images/products/sunbeam spiral/sunbeam1.jpeg',
+      image: 'images/products/sunbeam spiral/Yellow.jpeg',
       basePrice: 749, scentKey: 'sunbeamSpiral',
       priceMap: { 'Sandalwood': 849, 'Patchouli': 849 },
-      imageMap: {},
+      imageMap: {
+        'Lavender':"images/products/sunbeam spiral/purple.jpeg",
+        'Sakura':"images/products/sunbeam spiral/Yellow.jpeg",
+        'Orchid':"images/products/sunbeam spiral/purple.jpeg",
+        'White Tea':"images/products/sunbeam spiral/white.jpeg",
+      'Ocean Breeze':"images/products/sunbeam spiral/black.jpeg",
+      'Lemon':"images/products/sunbeam spiral/Yellow.jpeg",
+      'Bergamot':"images/products/sunbeam spiral/white.jpeg",
+      'Orange':"images/products/sunbeam spiral/red.jpeg",
+      'Mix Fruit':"images/products/sunbeam spiral/red.jpeg",
+      'Sandalwood':"images/products/sunbeam spiral/Yellow.jpeg",
+      'Patchouli':"images/products/sunbeam spiral/black.jpeg",
+      },
       sizes: [ { label: '70g', priceAdd: 0 } ],
     },
     {
       id: 22, name: 'Satin Swirl', category: 'Sculpted',
       fragranceFamily: ['floral','fresh','woody'], emoji: '🌸', tag: '',
-      image: 'images/products/satin swirl/swirl1.jpeg',
+      image: 'images/products/satin swirl/black.jpeg',
       basePrice: 749, scentKey: 'satinSwirl',
       priceMap: { 'Sandalwood': 849, 'Patchouli': 849 },
-      imageMap: {},
+      imageMap: {
+        'French Lavender':"images/products/satin swirl/purple.jpeg",
+        'White Tea':"images/products/satin swirl/white.jpeg",
+        'Eucalyptus':"images/products/satin swirl/red.jpeg",
+      'Ocean Breeze':"images/products/satin swirl/black.jpeg",
+      'Bergamot':"images/products/satin swirl/red.jpeg",
+      'Sandalwood':"images/products/satin swirl/red.jpeg",
+      'Patchouli':"images/products/satin swirl/purple.jpeg",
+      'White Mask':"images/products/satin swirl/white.jpeg",
+      },
       sizes: [ { label: '70g', priceAdd: 0 } ],
     },
     {
       id: 23, name: 'Alpine Twist', category: 'Sculpted',
       fragranceFamily: ['floral','fresh','woody'], emoji: '🌿', tag: '',
-      image: 'images/products/Alpine twist/Twist1.jpeg',
+      image: 'images/products/Alpine twist/red.jpeg',
       basePrice: 749, scentKey: 'alpineTwist',
       priceMap: { 'Sandalwood': 849, 'Patchouli': 849, 'Suede': 849, 'Cinnamon': 849 },
-      imageMap: {},
+      imageMap: {
+        'Lavender':"images/products/Alpine twist/purple.jpeg",
+        'White Tea':"images/products/Alpine twist/black.jpeg",
+        'Eucalyptus':"images/products/Alpine twist/red.jpeg",
+        'Ocean Breeze':"images/products/Alpine twist/black.jpeg",
+        'Bergamot':"images/products/Alpine twist/purple.jpeg",
+        'Lemon':"images/products/Alpine twist/white.jpeg",
+        'Sandalwood':"images/products/Alpine twist/red.jpeg",
+        'Patchouli':"images/products/Alpine twist/purple.jpeg",
+        'Cinnamon':"images/products/Alpine twist/black.jpeg",
+        'White Mask':"images/products/Alpine twist/white.jpeg",
+        'Suede':"images/products/Alpine twist/red.jpeg",
+      },
       sizes: [ { label: '70g', priceAdd: 0 } ],
     },
     {
@@ -329,16 +403,35 @@
       image: 'images/products/Satin Petal/petal1.jpg',
       basePrice: 749, scentKey: 'satinPetal',
       priceMap: { 'Champaka': 849, 'Frangipani': 849 },
-      imageMap: {},
+      imageMap: {
+        'Rose & Lotus':"",
+        'Pink Rose':"",
+        'Red Rose':"",
+        'Black Rose':"",
+        'Lavender':"",
+      'Sakura':"",
+      'Lotus':"",
+      'Jasmine':"",
+      'Frangipani':"",
+      'Champaka':"",
+      'Cherry Blossom':"",
+      },
       sizes: [ { label: '70g', priceAdd: 0 } ],
     },
     {
       id: 25, name: 'Filigree Floral', category: 'Sculpted',
       fragranceFamily: ['floral'], emoji: '🌸', tag: '',
-      image: 'images/products/Filigree floral/Floral1.jpeg',
+      image: 'images/products/Filigree floral/yellow.jpeg',
       basePrice: 749, scentKey: 'filigreeFloral',
       priceMap: {},
-      imageMap: {},
+      imageMap: {
+        'Rose & Lotus':"images/products/Filigree floral/white.jpeg",
+        'Pink Rose':"images/products/Filigree floral/yellow.jpeg",
+        'Red Rose':"images/products/Filigree floral/red.jpeg",
+        'French Lavender':"images/products/Filigree floral/black.jpeg",
+        'Lavender Fresh':"images/products/Filigree floral/yellow.jpeg",
+        'Cherry Blossom':"images/products/Filigree floral/red.jpeg",
+      },
       sizes: [ { label: '70g', priceAdd: 0 } ],
     },
     {
@@ -353,19 +446,37 @@
     {
       id: 27, name: 'Gliding Iris', category: 'Sculpted',
       fragranceFamily: ['floral','fresh'], emoji: '🪻', tag: '',
-      image: 'images/products/Gliding Iris/Iris1.jpeg',
+      image: "images/products/Gliding Iris/black.jpeg",
       basePrice: 749, scentKey: 'glidingIris',
       priceMap: { 'Champaka': 849, 'Frangipani': 849 },
-      imageMap: {},
+      imageMap: {
+        'Frangipani':"images/products/Gliding Iris/purple.jpeg",
+        'Lotus':"images/products/Gliding Iris/black.jpeg",
+        'Champaka':"images/products/Gliding Iris/yellow.jpeg",
+        'Lavender':"images/products/Gliding Iris/purple.jpeg",
+      'White Tea':"images/products/Gliding Iris/white.jpeg",
+      'Orchid':"images/products/Gliding Iris/yellow.jpeg",
+      'Lily':"images/products/Gliding Iris/pink.jpeg",
+      'Ocean Breeze':"images/products/Gliding Iris/white.jpeg",
+      },
       sizes: [ { label: '70g', priceAdd: 0 } ],
     },
     {
       id: 28, name: 'Blossom Tarts', category: 'Sculpted',
       fragranceFamily: ['floral','cafe','fruity'], emoji: '🧁', tag: '',
-      image: 'images/products/Blossom Tarts/tart1.jpeg',
+      image: 'images/products/Blossom Tarts/white.jpeg',
       basePrice: 749, scentKey: 'blossomTarts',
       priceMap: { 'Coffee': 849, 'Chocolate': 849 },
-      imageMap: {},
+      imageMap: {
+        'Vanilla':"images/products/Blossom Tarts/white.jpeg",
+        'Strawberry':"images/products/Blossom Tarts/pink.jpeg",
+        'Chocolate':"images/products/Blossom Tarts/white.jpeg",
+        'Coffee':"images/products/Blossom Tarts/white.jpeg",
+        'Lavender':"images/products/Blossom Tarts/purple.jpeg",
+      'Pink Rose':"images/products/Blossom Tarts/pink.jpeg",
+      'Sweet Osmanthus':"images/products/Blossom Tarts/pink.jpeg",
+      'Vanilla & Mint':"images/products/Blossom Tarts/white.jpeg",
+      },
       sizes: [ { label: '70g', priceAdd: 0 } ],
     },
     {
@@ -374,18 +485,107 @@
       image: 'images/products/Lunar Bliss/1.jpg',
       basePrice: 749, scentKey: 'lunarBliss',
       priceMap: { 'Sandalwood': 849 },
-      imageMap: {},
+      imageMap: {
+        'Lavender':"",
+        'White Tea':"",
+        'Lily':"",
+        'Sweet Osmanthus':"",
+      'Ocean Breeze':"",
+      'Lemon':"",
+      'Bergamot':"",
+      'Vanilla':"",
+      'Sandalwood':"",
+
+      },
       sizes: [ { label: '70g', priceAdd: 0 } ],
     },
     {
-      id: 30, name: 'Cupcake', category: 'Floral',
-      fragranceFamily: ['floral','fruity'], emoji: '🧁', tag: 'New',
+      id: 30, name: 'Cupcake', category: '',
+      fragranceFamily: ['fruity'], emoji: '🧁', tag: 'New',
       image: 'images/products/Cupcake/cake1.jpeg',
-      basePrice: 949, scentKey: 'floralJar',
+      basePrice: 949, scentKey: 'Cupcake',
       priceMap: {},
-      imageMap: {},
+      imageMap: {
+        'Berry Cake':"images/products/Cupcake/cake1.jpeg",
+        'Chocolate cake':"images/products/Cupcake/cake2.jpeg",
+        'Fruit Cake':"images/products/Cupcake/cake3.jpeg"
+
+
+      },
       sizes: [ { label: '145g', priceAdd: 0 } ],
     },
+
+    {
+      id: 31, name: 'Caramel Swirl', category: 'Cafe',
+      fragranceFamily: ['cafe'], emoji: '☕', tag: 'Refreshing',
+      image: 'images/products/Caramel Swirl.png',
+      basePrice: 1049, scentKey: 'CaramelSwirl',
+      priceMap: { 'Caramel Swirl': 1199}, 
+      imageMap: {},
+      sizes: [ { label: '120g', priceAdd: 0 } ],
+    },
+
+    {
+      id: 32, name: 'Caramel Drizzle', category: 'Cafe',
+      fragranceFamily: ['cafe'], emoji: '☕', tag: 'Refreshing',
+      image: 'images/products/Caramel Drizzle.png',
+      basePrice: 1049, scentKey: 'CaramelDrizzle',
+      priceMap: { 'Caramel Drizzle': 1199}, 
+      imageMap: {},
+      sizes: [ { label: '120g', priceAdd: 0 } ],
+    },
+
+    {
+      id: 33, name: 'Smooth Vanilla', category: 'Cafe',
+      fragranceFamily: ['cafe'], emoji: '☕', tag: 'Refreshing',
+      image: 'images/products/Smooth Vanilla.png',
+      basePrice: 1049, scentKey: 'SmoothVanilla',
+      priceMap: { 'Smooth Vanilla': 1199}, 
+      imageMap: {},
+      sizes: [ { label: '120g', priceAdd: 0 } ],
+    },
+
+    {
+      id: 34, name: 'Creamy Milk', category: 'Cafe',
+      fragranceFamily: ['cafe'], emoji: '☕', tag: 'Refreshing',
+      image: 'images/products/Creamy Milk.png',
+      basePrice: 1049, scentKey: 'CreamyMilk',
+      priceMap: { 'Creamy Milk': 1199}, 
+      imageMap: {},
+      sizes: [ { label: '120g', priceAdd: 0 } ],
+    },
+
+    {
+      id: 35, name: 'Mocha Cookie Crumble', category: 'Cafe',
+      fragranceFamily: ['cafe'], emoji: '☕', tag: 'Refreshing',
+      image: 'images/products/Mocha Cookie Crumble.png',
+      basePrice: 1049, scentKey: 'Mochacookiecrumble',
+      priceMap: { 'Mocha Cookie Crumble': 1199}, 
+      imageMap: {},
+      sizes: [ { label: '120g', priceAdd: 0 } ],
+    },
+
+    {
+      id: 36, name: 'White Chocolate Mocha', category: 'Cafe',
+      fragranceFamily: ['cafe'], emoji: '☕', tag: 'Refreshing',
+      image: 'images/products/White Chocolate mocha.png',
+      basePrice: 1049, scentKey: 'WhiteChocolateMocha',
+      priceMap: { 'White Chocolate Mocha': 1199}, 
+      imageMap: {},
+      sizes: [ { label: '120g', priceAdd: 0 } ],
+    },
+
+    {
+      id: 37, name: 'Brewed Coffee', category: 'Cafe',
+      fragranceFamily: ['cafe'], emoji: '☕', tag: 'Refreshing',
+      image: 'images/products/Brewed Coffee.png',
+      basePrice: 1049, scentKey: 'BrewedCoffee',
+      priceMap: { 'Brewed Coffee': 1199}, 
+      imageMap: {},
+      sizes: [ { label: '120g', priceAdd: 0 } ],
+    },
+
+
   ];
   
   /* ── Populate .fragrances for every product ── */

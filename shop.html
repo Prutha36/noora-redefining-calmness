@@ -17,27 +17,60 @@
   <div class="petal"></div><div class="petal"></div><div class="petal"></div>
 </div>
 
-<nav>
-  <a href="index.html" class="nav-logo">
-    <img src="images/logo.png" alt="Noora" class="nav-logo-img"/>
-    <div class="nav-logo-text">
-      <span class="nav-logo-name">Noora</span>
-      <span class="nav-logo-tagline">Redefining Calmness</span>
+<!-- ═══════════════════════════════════════════════════════════
+     REPLACE YOUR <nav>…</nav> WITH THIS IN ALL HTML FILES
+     ═══════════════════════════════════════════════════════════ -->
+     <nav>
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo.png" alt="Noora" class="nav-logo-img"/>
+        <div class="nav-logo-text">
+          <span class="nav-logo-name">Noora</span>
+          <span class="nav-logo-tagline">Redefining Calmness</span>
+        </div>
+      </a>
+    
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="deals.html">Deals</a></li>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="process.html">Process</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    
+      <div class="nav-right">
+        <!-- Wishlist -->
+        <button class="nav-wishlist" onclick="openWishlistPanel()" aria-label="Wishlist">
+          🤍<span class="wishlist-count" id="wishlistCount"></span>
+        </button>
+        <!-- Cart -->
+        <button class="nav-cart" onclick="toggleCart()" aria-label="Cart">
+          🛒<span class="cart-count" id="cartCount">0</span>
+        </button>
+        <!-- Auth -->
+        <div id="navAuthBtn"></div>
+        <!-- Hamburger (mobile only) -->
+        <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+    
+    <!-- Mobile menu — place right after </nav> -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-logo">
+        <img src="images/logo.png" alt="Noora"/>Noora
+      </div>
+      <ul>
+        <li><a href="index.html"   onclick="closeMobileMenu()">Home</a></li>
+        <li><a href="shop.html"    onclick="closeMobileMenu()">Shop</a></li>
+        <li><a href="deals.html"   onclick="closeMobileMenu()">Deals</a></li>
+        <li><a href="about.html"   onclick="closeMobileMenu()">Our Story</a></li>
+        <li><a href="process.html" onclick="closeMobileMenu()">Process</a></li>
+        <li><a href="contact.html" onclick="closeMobileMenu()">Contact</a></li>
+      </ul>
     </div>
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="shop.html" class="active">Shop</a></li>
-    <li><a href="deals.html">Deals</a></li>
-    <li><a href="about.html">Our Story</a></li>
-    <li><a href="process.html">Process</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
-  <button class="nav-cart" onclick="toggleCart()" aria-label="Cart">
-    🛒<span class="cart-count" id="cartCount">0</span>
-  </button>
-  <div id="navAuthBtn"></div>
-</nav>
 
 <!-- SHOP -->
 <div id="shop-page">
@@ -59,7 +92,7 @@
         <button class="filter-btn active" data-filter="all">✿ All</button>
         <button class="filter-btn" data-filter="Sculpted">Sculpted</button>
         <button class="filter-btn" data-filter="Cafe">Café Series</button>
-        <button class="filter-btn" data-filter="Floral">Floral Jars</button>
+        <button class="filter-btn" data-filter="Exotic">Exotic Jars</button>
         <button class="filter-btn" data-filter="Arabic">Arabic & Woody</button>
         <button class="filter-btn" data-filter="Pillar">Pillar</button>
         <button class="filter-btn" data-filter="gift">Gift Sets</button>

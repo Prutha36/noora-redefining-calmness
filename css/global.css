@@ -1224,3 +1224,155 @@ footer ul li a:hover { color: var(--petal-deep); }
   .modal-frags-wrap { max-height: 160px; }
   .modal-footer { padding: 1rem 2rem 1.5rem; }
 }
+/* ============================================================
+   ADD TO BOTTOM OF global.css
+   ============================================================ */
+
+/* ── HAMBURGER BUTTON ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column; justify-content: center; align-items: center;
+  gap: 5px; width: 38px; height: 38px;
+  background: none; border: none; cursor: pointer;
+  padding: 4px; border-radius: 8px; flex-shrink: 0;
+}
+.nav-hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--bloom); border-radius: 2px;
+  transition: all 0.25s;
+}
+@media (max-width: 600px) {
+  .nav-hamburger { display: flex; }
+  .nav-links      { display: none !important; }
+}
+
+/* ── MOBILE MENU ── */
+.mobile-menu-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(30,10,18,0.45); z-index: 350;
+}
+.mobile-menu-overlay.open { display: block; }
+.mobile-menu {
+  position: fixed; top: 0; left: 0; bottom: 0; width: 78vw; max-width: 300px;
+  background: var(--ivory); z-index: 351;
+  transform: translateX(-100%); transition: transform 0.32s cubic-bezier(.4,0,.2,1);
+  display: flex; flex-direction: column;
+  padding: 2rem 1.5rem;
+  box-shadow: 4px 0 30px rgba(30,10,18,0.12);
+}
+.mobile-menu.open { transform: translateX(0); }
+.mobile-menu-logo {
+  font-family: 'Great Vibes', cursive; font-size: 2.4rem;
+  color: var(--bloom); margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.mobile-menu-logo img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.mobile-menu ul li a {
+  display: block; padding: 0.9rem 0;
+  font-family: 'Lato', sans-serif; font-size: 0.82rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--text-mid); text-decoration: none;
+  border-bottom: 1px solid rgba(196,104,122,0.1);
+  transition: color 0.2s;
+}
+.mobile-menu ul li a:hover, .mobile-menu ul li a.active { color: var(--rose); }
+
+/* ── WISHLIST NAV BUTTON ── */
+.nav-wishlist {
+  position: relative; background: none; border: none;
+  font-size: 1.2rem; cursor: pointer; color: var(--bark);
+  transition: color 0.2s; flex-shrink: 0;
+  display: flex; align-items: center;
+}
+.nav-wishlist:hover { color: var(--rose); }
+.wishlist-count {
+  position: absolute; top: -6px; right: -8px;
+  background: var(--rose); color: #fff; font-size: 0.58rem;
+  width: 16px; height: 16px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: scale(0); transition: all 0.25s;
+}
+.wishlist-count.visible { opacity: 1; transform: scale(1); }
+
+/* ── PRODUCT CARD — full mobile fix ── */
+@media (max-width: 500px) {
+  .shop-inner     { padding: 1.5rem 0.8rem 4rem !important; }
+  .products-grid  { grid-template-columns: 1fr !important; gap: 1.2rem !important; }
+  .product-img    { height: 340px !important; }
+  .product-card   { border-radius: 14px; }
+}
+@media (min-width: 501px) and (max-width: 767px) {
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .product-img   { height: 220px; }
+  .shop-inner    { padding: 1.5rem 1rem 4rem; }
+}
+
+/* ── CARD TAP AREA (full-card click target) ── */
+.pcard-tap-area {
+  position: absolute; inset: 0; z-index: 0; cursor: pointer;
+}
+.product-card { position: relative; }
+.product-img  { position: relative; z-index: 1; }
+.product-info { position: relative; z-index: 1; }
+.wishlist-btn { z-index: 3; }
+.product-tag  { z-index: 2; }
+.add-to-cart  { position: relative; z-index: 2; }
+
+/* ── COLOUR DOTS ON CARD ── */
+.pcard-colour-dots {
+  position: absolute; bottom: 8px; left: 0; right: 0;
+  display: flex; justify-content: center; gap: 5px; z-index: 2;
+}
+.pcdot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background-size: cover; background-position: center;
+  border: 1.5px solid rgba(255,255,255,0.85);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+.pcdot.active { transform: scale(1.35); border-color: #fff; }
+
+/* Product img needs overflow hidden for swipe */
+.product-img img.product-card-img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: opacity 0.2s;
+}
+
+/* ── GOOGLE SIGN IN BUTTON ── */
+.google-signin-btn {
+  width: 100%; display: flex; align-items: center; justify-content: center;
+  gap: 0.7rem; padding: 0.85rem 1rem;
+  background: #fff; color: #3c4043;
+  border: 1.5px solid rgba(0,0,0,0.12); border-radius: 30px;
+  font-family: 'Lato', sans-serif; font-size: 0.78rem;
+  letter-spacing: 0.1em; cursor: pointer;
+  transition: box-shadow 0.2s, background 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.google-signin-btn:hover {
+  background: #f8f8f8;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+}
+
+/* ── AUTH OR DIVIDER ── */
+.auth-or-divider {
+  display: flex; align-items: center; gap: 0.8rem;
+  margin: 1rem 0 0.8rem; color: var(--text-light); font-size: 0.75rem;
+}
+.auth-or-divider::before, .auth-or-divider::after {
+  content: ''; flex: 1; height: 1px; background: rgba(196,104,122,0.15);
+}
+
+/* ── NAV right-side group ── */
+.nav-right {
+  display: flex; align-items: center; gap: 0.8rem; flex-shrink: 0;
+}
+
+/* ── PRODUCT MODAL — mobile full height ── */
+@media (max-width: 767px) {
+  .product-modal      { max-height: 96vh; }
+  .modal-img-col      { height: 240px; }
+  .modal-options-col  { padding: 1rem 1.2rem 0; }
+}
