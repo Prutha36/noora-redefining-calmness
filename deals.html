@@ -18,9 +18,14 @@
 </div>
 
 <!-- NAV -->
-<<!-- ═══════════════════════════════════════════════════════════
-     REPLACE YOUR <nav>…</nav> WITH THIS IN ALL HTML FILES
-     ═══════════════════════════════════════════════════════════ -->
+<!--
+  REPLACE <nav>...</nav> AND ADD mobile menu divs
+  in ALL 6 HTML files (index, shop, deals, about, process, contact)
+  
+  The active class on the correct nav link will be set by JS (setActiveNav)
+  so the same nav works on every page.
+-->
+
 <nav>
   <a href="index.html" class="nav-logo">
     <img src="images/logo.png" alt="Noora" class="nav-logo-img"/>
@@ -40,24 +45,20 @@
   </ul>
 
   <div class="nav-right">
-    <!-- Wishlist -->
     <button class="nav-wishlist" onclick="openWishlistPanel()" aria-label="Wishlist">
       🤍<span class="wishlist-count" id="wishlistCount"></span>
     </button>
-    <!-- Cart -->
     <button class="nav-cart" onclick="toggleCart()" aria-label="Cart">
       🛒<span class="cart-count" id="cartCount">0</span>
     </button>
-    <!-- Auth -->
     <div id="navAuthBtn"></div>
-    <!-- Hamburger (mobile only) -->
-    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<!-- Mobile menu — place right after </nav> -->
+<!-- MOBILE MENU: place right after </nav> on every page -->
 <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu-logo">

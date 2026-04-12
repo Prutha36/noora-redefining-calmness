@@ -1225,25 +1225,21 @@ footer ul li a:hover { color: var(--petal-deep); }
   .modal-footer { padding: 1rem 2rem 1.5rem; }
 }
 /* ============================================================
-   ADD TO BOTTOM OF global.css
+   REPLACE ENTIRE BOTTOM SECTION of global.css with this block
+   (paste after the existing .custom-frag-section rule at bottom)
    ============================================================ */
 
-/* ── HAMBURGER BUTTON ── */
+/* ── HAMBURGER ── */
 .nav-hamburger {
-  display: none;
-  flex-direction: column; justify-content: center; align-items: center;
-  gap: 5px; width: 38px; height: 38px;
-  background: none; border: none; cursor: pointer;
-  padding: 4px; border-radius: 8px; flex-shrink: 0;
+  display: none; flex-direction: column; justify-content: center;
+  align-items: center; gap: 5px;
+  width: 36px; height: 36px; min-width: 36px;
+  background: none; border: none; cursor: pointer; border-radius: 8px;
+  padding: 4px; flex-shrink: 0;
 }
 .nav-hamburger span {
-  display: block; width: 22px; height: 2px;
-  background: var(--bloom); border-radius: 2px;
-  transition: all 0.25s;
-}
-@media (max-width: 600px) {
-  .nav-hamburger { display: flex; }
-  .nav-links      { display: none !important; }
+  display: block; width: 20px; height: 2px;
+  background: var(--bloom); border-radius: 2px; transition: all 0.25s;
 }
 
 /* ── MOBILE MENU ── */
@@ -1253,37 +1249,35 @@ footer ul li a:hover { color: var(--petal-deep); }
 }
 .mobile-menu-overlay.open { display: block; }
 .mobile-menu {
-  position: fixed; top: 0; left: 0; bottom: 0; width: 78vw; max-width: 300px;
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: 75vw; max-width: 280px;
   background: var(--ivory); z-index: 351;
-  transform: translateX(-100%); transition: transform 0.32s cubic-bezier(.4,0,.2,1);
-  display: flex; flex-direction: column;
-  padding: 2rem 1.5rem;
-  box-shadow: 4px 0 30px rgba(30,10,18,0.12);
+  transform: translateX(-100%); transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+  display: flex; flex-direction: column; padding: 1.5rem 1.5rem 2rem;
+  box-shadow: 4px 0 24px rgba(30,10,18,0.1); overflow-y: auto;
 }
 .mobile-menu.open { transform: translateX(0); }
 .mobile-menu-logo {
-  font-family: 'Great Vibes', cursive; font-size: 2.4rem;
-  color: var(--bloom); margin-bottom: 2rem;
+  font-family: 'Great Vibes', cursive; font-size: 2rem;
+  color: var(--bloom); margin-bottom: 1.8rem;
   display: flex; align-items: center; gap: 0.5rem;
 }
-.mobile-menu-logo img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
-.mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.mobile-menu-logo img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.mobile-menu ul { list-style: none; }
 .mobile-menu ul li a {
-  display: block; padding: 0.9rem 0;
-  font-family: 'Lato', sans-serif; font-size: 0.82rem;
-  letter-spacing: 0.18em; text-transform: uppercase;
+  display: block; padding: 0.85rem 0;
+  font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--text-mid); text-decoration: none;
-  border-bottom: 1px solid rgba(196,104,122,0.1);
-  transition: color 0.2s;
+  border-bottom: 1px solid rgba(196,104,122,0.1); transition: color 0.2s;
 }
 .mobile-menu ul li a:hover, .mobile-menu ul li a.active { color: var(--rose); }
 
-/* ── WISHLIST NAV BUTTON ── */
+/* ── WISHLIST NAV ICON ── */
 .nav-wishlist {
   position: relative; background: none; border: none;
   font-size: 1.2rem; cursor: pointer; color: var(--bark);
   transition: color 0.2s; flex-shrink: 0;
-  display: flex; align-items: center;
+  display: flex; align-items: center; padding: 0;
 }
 .nav-wishlist:hover { color: var(--rose); }
 .wishlist-count {
@@ -1291,88 +1285,145 @@ footer ul li a:hover { color: var(--petal-deep); }
   background: var(--rose); color: #fff; font-size: 0.58rem;
   width: 16px; height: 16px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; transform: scale(0); transition: all 0.25s;
+  opacity: 0; transform: scale(0); transition: all 0.25s; pointer-events: none;
 }
 .wishlist-count.visible { opacity: 1; transform: scale(1); }
 
-/* ── PRODUCT CARD — full mobile fix ── */
-@media (max-width: 500px) {
-  .shop-inner     { padding: 1.5rem 0.8rem 4rem !important; }
-  .products-grid  { grid-template-columns: 1fr !important; gap: 1.2rem !important; }
-  .product-img    { height: 340px !important; }
-  .product-card   { border-radius: 14px; }
-}
-@media (min-width: 501px) and (max-width: 767px) {
-  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-  .product-img   { height: 220px; }
-  .shop-inner    { padding: 1.5rem 1rem 4rem; }
+/* ── NAV RIGHT GROUP ── */
+.nav-right {
+  display: flex; align-items: center; gap: 0.8rem; flex-shrink: 0;
 }
 
-/* ── CARD TAP AREA (full-card click target) ── */
-.pcard-tap-area {
-  position: absolute; inset: 0; z-index: 0; cursor: pointer;
+/* ── MOBILE NAV OVERRIDES ── */
+@media (max-width: 600px) {
+  nav {
+    padding: 0.7rem 1rem !important;
+    flex-wrap: nowrap; align-items: center;
+  }
+  .nav-logo-img      { width: 44px !important; height: 44px !important; }
+  .nav-logo-name     { font-size: 1.8rem !important; }
+  .nav-logo-tagline  { display: none; }
+  .nav-links         { display: none !important; }
+  .nav-hamburger     { display: flex !important; }
+  .nav-right         { gap: 0.5rem; }
+  .nav-signin-btn    { font-size: 0.6rem !important; padding: 0.35rem 0.8rem !important; }
+  .nav-avatar        { width: 28px !important; height: 28px !important; font-size: 0.62rem !important; }
+  .nav-wishlist      { font-size: 1.05rem; }
+  .nav-cart          { font-size: 1.05rem; }
 }
-.product-card { position: relative; }
-.product-img  { position: relative; z-index: 1; }
-.product-info { position: relative; z-index: 1; }
-.wishlist-btn { z-index: 3; }
-.product-tag  { z-index: 2; }
-.add-to-cart  { position: relative; z-index: 2; }
+
+/* ── PRODUCT GRID — mobile 1-column full image ── */
+@media (max-width: 480px) {
+  .shop-inner    { padding: 1.2rem 0.75rem 4rem !important; }
+  .products-grid { grid-template-columns: 1fr !important; gap: 1rem !important; }
+  .product-img   { height: 62vw !important; }
+  .shop-filters  { gap: 0.4rem !important; }
+  .filter-btn    { font-size: 0.62rem !important; padding: 0.4rem 0.9rem !important; }
+  .shop-mode-tab { padding: 0.5rem 1rem !important; font-size: 0.66rem !important; }
+  section        { padding: 3rem 1rem !important; }
+  .section-title { font-size: 1.6rem !important; }
+  footer         { grid-template-columns: 1fr 1fr !important; gap: 1.5rem !important; padding: 2rem 1rem !important; }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .shop-inner    { padding: 1.5rem 1rem 4rem !important; }
+  .products-grid { grid-template-columns: repeat(2,1fr) !important; gap: 1rem !important; }
+  .product-img   { height: 44vw !important; }
+}
 
 /* ── COLOUR DOTS ON CARD ── */
 .pcard-colour-dots {
-  position: absolute; bottom: 8px; left: 0; right: 0;
-  display: flex; justify-content: center; gap: 5px; z-index: 2;
+  position: absolute; bottom: 10px; left: 0; right: 0;
+  display: flex; justify-content: center; gap: 5px; z-index: 2; pointer-events: none;
 }
 .pcdot {
-  width: 10px; height: 10px; border-radius: 50%;
+  width: 11px; height: 11px; border-radius: 50%;
   background-size: cover; background-position: center;
-  border: 1.5px solid rgba(255,255,255,0.85);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  transition: transform 0.15s;
+  border: 2px solid rgba(255,255,255,0.9);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  transition: transform 0.15s, border-color 0.15s;
   flex-shrink: 0;
 }
-.pcdot.active { transform: scale(1.35); border-color: #fff; }
+.pcdot.active { transform: scale(1.4); border-color: #fff; }
 
-/* Product img needs overflow hidden for swipe */
-.product-img img.product-card-img {
+/* Product image transition on swipe */
+.product-card-img {
   width: 100%; height: 100%; object-fit: cover; display: block;
-  transition: opacity 0.2s;
+  transition: opacity 0.18s;
+}
+.product-img { overflow: hidden; position: relative; }
+
+/* ── PRODUCT MODAL — fix image visibility ── */
+@media (max-width: 767px) {
+  .product-modal     { max-height: 94vh; border-radius: 18px 18px 0 0; }
+  .modal-img-col     { height: 52vw !important; min-height: 200px; max-height: 280px; background: #f5eef2; }
+  .modal-product-img { width: 100% !important; height: 100% !important; object-fit: contain !important; }
+  .modal-options-col { padding: 1rem 1.2rem 0 !important; }
 }
 
-/* ── GOOGLE SIGN IN BUTTON ── */
+@media (min-width: 768px) {
+  .modal-img-col     { width: 42%; min-height: 460px; background: #f5eef2; }
+  .modal-product-img { object-fit: contain !important; }
+}
+
+/* ── GOOGLE SIGN-IN BUTTON ── */
 .google-signin-btn {
   width: 100%; display: flex; align-items: center; justify-content: center;
-  gap: 0.7rem; padding: 0.85rem 1rem;
+  gap: 0.7rem; padding: 0.85rem;
   background: #fff; color: #3c4043;
   border: 1.5px solid rgba(0,0,0,0.12); border-radius: 30px;
   font-family: 'Lato', sans-serif; font-size: 0.78rem;
-  letter-spacing: 0.1em; cursor: pointer;
-  transition: box-shadow 0.2s, background 0.2s;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  letter-spacing: 0.08em; cursor: pointer;
+  transition: box-shadow 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
-.google-signin-btn:hover {
-  background: #f8f8f8;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.12);
-}
+.google-signin-btn:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.12); background: #f9f9f9; }
 
-/* ── AUTH OR DIVIDER ── */
 .auth-or-divider {
   display: flex; align-items: center; gap: 0.8rem;
   margin: 1rem 0 0.8rem; color: var(--text-light); font-size: 0.75rem;
 }
 .auth-or-divider::before, .auth-or-divider::after {
-  content: ''; flex: 1; height: 1px; background: rgba(196,104,122,0.15);
+  content: ''; flex: 1; height: 1px; background: rgba(196,104,122,0.18);
 }
 
-/* ── NAV right-side group ── */
-.nav-right {
-  display: flex; align-items: center; gap: 0.8rem; flex-shrink: 0;
+/* ── WISHLIST PANEL — product images ── */
+.wishlist-item {
+  display: flex; align-items: flex-start; gap: 0.9rem;
+  background: #fff; border-radius: 12px; padding: 0.9rem;
+  border: 1px solid rgba(196,104,122,0.12);
 }
+.wl-img-wrap {
+  width: 68px; height: 68px; border-radius: 10px;
+  overflow: hidden; flex-shrink: 0;
+  background: var(--petal);
+  display: flex; align-items: center; justify-content: center;
+}
+.wl-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wishlist-item-info { flex: 1; min-width: 0; }
+.wishlist-item-name {
+  font-family: 'Playfair Display', serif; font-size: 0.88rem;
+  color: var(--bloom); margin-bottom: 0.2rem; line-height: 1.3;
+}
+.wishlist-item-price { font-size: 0.78rem; color: var(--rose); margin-bottom: 0.4rem; }
+.wl-shop-btn {
+  padding: 0.3rem 0.9rem; background: transparent;
+  border: 1px solid rgba(196,104,122,0.35); color: var(--bloom);
+  border-radius: 20px; font-family: 'Lato', sans-serif;
+  font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+}
+.wl-shop-btn:hover { background: var(--rose); color: #fff; border-color: var(--rose); }
 
-/* ── PRODUCT MODAL — mobile full height ── */
-@media (max-width: 767px) {
-  .product-modal      { max-height: 96vh; }
-  .modal-img-col      { height: 240px; }
-  .modal-options-col  { padding: 1rem 1.2rem 0; }
-}
+/* ── DESKTOP CLICK AREAS — make sure entire card is clickable ── */
+.product-card { cursor: pointer; }
+.product-card .product-name,
+.product-card .product-price,
+.product-card .product-info { pointer-events: none; }
+.product-card .add-to-cart,
+.product-card .wishlist-btn,
+.product-card .pcard-colour-dots { pointer-events: auto; }
+
+/* ── PREVENT LAYOUT OVERFLOW on all screens ── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { max-width: 100vw; overflow-x: hidden; }
+img { max-width: 100%; }
