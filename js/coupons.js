@@ -6,7 +6,7 @@
     'NOORA2026': {
       type: 'percent',
       value: 15,
-      description: '15% off when you sign up'
+      description: '15% off your order'
     },
     'NOORA30': {
       type: 'percent',
