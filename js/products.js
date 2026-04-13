@@ -421,7 +421,7 @@ function makeFragrances(scents, basePrice, priceMap, imageMap, defaultImage) {
     {
       id: 24, name: 'Satin Petal', category: 'Sculpted',
       fragranceFamily: ['floral'], emoji: '🌹', tag: '',
-      image: 'images/products/Satin Petal/petal1.jpg',
+      image: 'images/products/Satin Petal/red.jpeg',
       basePrice: 299, scentKey: 'satinPetal',
       priceMap: { 'Champaka': 349, 'Frangipani': 395 },
       imageMap: {
