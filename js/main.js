@@ -9,19 +9,26 @@ function showToast(msg) {
   setTimeout(function(){ t.classList.remove('show'); }, 2800);
 }
 
-/* ── SCROLL REVEAL ── */
+/* ── SCROLL REVEAL — section headings only, NOT product cards ── */
 function initScrollReveal() {
   var obs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    entries.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
   }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+  /* Only observe elements that are NOT inside a product grid */
+  document.querySelectorAll('.reveal').forEach(function(el){
+    if (!el.classList.contains('product-card')) obs.observe(el);
+  });
 }
 
 /* ── ACTIVE NAV ── */
 function setActiveNav() {
   var page = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(function(a) {
-    a.classList.toggle('active', a.getAttribute('href') === page || (page === '' && a.getAttribute('href') === 'index.html'));
+    a.classList.toggle('active',
+      a.getAttribute('href') === page ||
+      (page === '' && a.getAttribute('href') === 'index.html'));
   });
 }
 
@@ -56,35 +63,38 @@ function getColourGroups(p) {
 }
 
 /* ── BUILD PRODUCT CARD ── */
-/* No swipe, no touch handlers — entire card is a click target */
+/* No .reveal class on product cards — they render instantly, no IntersectionObserver needed */
 function buildProductCard(p) {
   var cg = getColourGroups(p);
   var prices = p.fragrances.map(function(f){ return f.price; });
   var minP = Math.min.apply(null, prices), maxP = Math.max.apply(null, prices);
   var priceStr = minP === maxP ? '&#8377;' + minP : 'from &#8377;' + minP;
 
-  var gw   = (typeof getGuestWishlist === 'function') ? getGuestWishlist() : new Set();
+  var gw    = (typeof getGuestWishlist === 'function') ? getGuestWishlist() : new Set();
   var wlIds = (typeof wishlistIds !== 'undefined' && wishlistIds.size) ? wishlistIds : gw;
   var isWL  = wlIds.has(p.id);
 
-  /* colour dots — visual only, no interaction */
+  /* colour dots — visual only */
   var dots = '';
   if (cg && cg.length > 1) {
     dots = '<div class="pcard-colour-dots">' +
       cg.slice(0, 8).map(function(g, i){
-        return '<span class="pcdot' + (i === 0 ? ' active' : '') + '" style="background-image:url(\'' + g.image + '\')"></span>';
+        return '<span class="pcdot' + (i === 0 ? ' active' : '') +
+          '" style="background-image:url(\'' + g.image + '\')"></span>';
       }).join('') + '</div>';
   }
 
-  /* entire card is one big click — wishlist button stops propagation */
+  /* ── entire card is clickable; wishlist stops propagation ── */
   return (
-    '<div class="product-card reveal" id="pcard-' + p.id + '" data-ci="0"' +
+    '<div class="product-card" id="pcard-' + p.id + '" data-ci="0"' +
       ' onclick="openProductModal(' + p.id + ')">' +
       '<div class="product-img">' +
         (p.tag ? '<span class="product-tag">' + p.tag + '</span>' : '') +
-        '<button class="wishlist-btn' + (isWL ? ' wishlisted' : '') + '" data-pid="' + p.id + '"' +
+        '<button class="wishlist-btn' + (isWL ? ' wishlisted' : '') + '"' +
+          ' data-pid="' + p.id + '"' +
           ' onclick="event.stopPropagation();toggleWishlist(' + p.id + ',this)">' +
-          (isWL ? '❤️' : '🤍') + '</button>' +
+          (isWL ? '❤️' : '🤍') +
+        '</button>' +
         '<img src="' + p.image + '" alt="' + p.name + '" class="product-card-img"' +
           ' loading="lazy" decoding="async"' +
           ' onerror="this.style.display=\'none\'">' +
@@ -94,14 +104,17 @@ function buildProductCard(p) {
         '<div class="product-name">' + p.name + '</div>' +
         '<div class="product-footer">' +
           '<div class="product-price">' + priceStr + '</div>' +
-          '<button class="add-to-cart" onclick="event.stopPropagation();openProductModal(' + p.id + ')">Customise ✿</button>' +
+          '<button class="add-to-cart"' +
+            ' onclick="event.stopPropagation();openProductModal(' + p.id + ')">' +
+            'Customise ✿' +
+          '</button>' +
         '</div>' +
       '</div>' +
     '</div>'
   );
 }
 
-/* ── PRODUCT GRID ── */
+/* ── PRODUCT GRID — no IntersectionObserver ── */
 var activeFilter = 'all';
 
 function renderProducts() {
@@ -109,10 +122,6 @@ function renderProducts() {
   var list = activeFilter === 'all' ? products :
     products.filter(function(p){ return p.category === activeFilter || p.tag === activeFilter; });
   grid.innerHTML = list.map(buildProductCard).join('');
-  var obs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.05 });
-  grid.querySelectorAll('.product-card.reveal').forEach(function(el){ obs.observe(el); });
   if (typeof renderWishlistHearts === 'function') renderWishlistHearts();
 }
 
@@ -171,17 +180,15 @@ function selectShopScent(scent, btn) {
   renderFragProducts('fragProductsGrid', matched);
 }
 
+/* ── no IntersectionObserver here either ── */
 function renderFragProducts(gridId, list) {
   var grid = document.getElementById(gridId); if (!grid) return;
   if (!list || !list.length) {
-    grid.innerHTML = '<p style="text-align:center;color:var(--text-light);font-style:italic;padding:2rem 0;grid-column:1/-1">No products found 🌸</p>';
+    grid.innerHTML = '<p style="text-align:center;color:var(--text-light);' +
+      'font-style:italic;padding:2rem 0;grid-column:1/-1">No products found 🌸</p>';
     return;
   }
   grid.innerHTML = list.map(buildProductCard).join('');
-  var obs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.05 });
-  grid.querySelectorAll('.product-card.reveal').forEach(function(el){ obs.observe(el); });
   if (typeof renderWishlistHearts === 'function') renderWishlistHearts();
 }
 
@@ -191,15 +198,22 @@ var modalState = { pid: null, colourIdx: 0, fragIdx: 0, sizeIdx: 0, qty: 1 };
 function openProductModal(pid, colourIdx) {
   colourIdx = colourIdx || 0;
   var p = products.find(function(x){ return x.id === pid; }); if (!p) return;
-  var cg = getColourGroups(p);
+  var cg    = getColourGroups(p);
   modalState = { pid: pid, colourIdx: colourIdx, fragIdx: 0, sizeIdx: 0, qty: 1 };
   var frags = cg ? cg[colourIdx].fragrances : p.fragrances;
   var img   = cg ? cg[colourIdx].image      : p.image;
 
-  var imgEl = document.getElementById('modal-img'); if (imgEl) { imgEl.src = img; imgEl.alt = p.name; }
-  var nameEl = document.getElementById('modal-name'); if (nameEl) nameEl.textContent = p.name;
-  var priceEl = document.getElementById('modal-price'); if (priceEl) priceEl.textContent = '₹' + frags[0].price;
-  var tagEl = document.getElementById('modal-tag'); if (tagEl) { tagEl.textContent = p.tag || ''; tagEl.style.display = p.tag ? 'inline-block' : 'none'; }
+  var imgEl = document.getElementById('modal-img');
+  if (imgEl) { imgEl.src = img; imgEl.alt = p.name; }
+
+  var nameEl = document.getElementById('modal-name');
+  if (nameEl) nameEl.textContent = p.name;
+
+  var priceEl = document.getElementById('modal-price');
+  if (priceEl) priceEl.textContent = '₹' + frags[0].price;
+
+  var tagEl = document.getElementById('modal-tag');
+  if (tagEl) { tagEl.textContent = p.tag || ''; tagEl.style.display = p.tag ? 'inline-block' : 'none'; }
 
   var colSection = document.getElementById('modal-colour-section');
   if (cg && cg.length > 1) {
@@ -219,7 +233,8 @@ function openProductModal(pid, colourIdx) {
 
   var sizesEl = document.getElementById('modal-sizes');
   if (sizesEl) sizesEl.innerHTML = p.sizes.map(function(s, i){
-    return '<button class="modal-size-chip' + (i === 0 ? ' active' : '') + '" onclick="selectModalSize(' + i + ')">' + s.label + '</button>';
+    return '<button class="modal-size-chip' + (i === 0 ? ' active' : '') +
+      '" onclick="selectModalSize(' + i + ')">' + s.label + '</button>';
   }).join('');
 
   var qtyEl = document.getElementById('modal-qty'); if (qtyEl) qtyEl.textContent = 1;
@@ -232,27 +247,30 @@ function openProductModal(pid, colourIdx) {
 function renderModalFragrances(frags, activeIdx) {
   var el = document.getElementById('modal-frags'); if (!el) return;
   el.innerHTML = frags.map(function(f, i){
-    return '<button class="modal-frag-pill' + (i === activeIdx ? ' active' : '') + '" onclick="selectModalFrag(' + i + ')">' + f.name + '</button>';
+    return '<button class="modal-frag-pill' + (i === activeIdx ? ' active' : '') +
+      '" onclick="selectModalFrag(' + i + ')">' + f.name + '</button>';
   }).join('');
 }
 
 function selectModalColour(idx) {
-  var p = products.find(function(x){ return x.id === modalState.pid; });
+  var p  = products.find(function(x){ return x.id === modalState.pid; });
   var cg = getColourGroups(p); if (!cg) return;
   modalState.colourIdx = idx; modalState.fragIdx = 0;
   var imgEl = document.getElementById('modal-img'); if (imgEl) imgEl.src = cg[idx].image;
   document.querySelectorAll('.modal-swatch').forEach(function(s, i){ s.classList.toggle('active', i === idx); });
   renderModalFragrances(cg[idx].fragrances, 0);
-  var priceEl = document.getElementById('modal-price'); if (priceEl) priceEl.textContent = '₹' + cg[idx].fragrances[0].price;
+  var priceEl = document.getElementById('modal-price');
+  if (priceEl) priceEl.textContent = '₹' + cg[idx].fragrances[0].price;
 }
 
 function selectModalFrag(idx) {
-  var p = products.find(function(x){ return x.id === modalState.pid; });
+  var p  = products.find(function(x){ return x.id === modalState.pid; });
   var cg = getColourGroups(p);
   var frags = cg ? cg[modalState.colourIdx].fragrances : p.fragrances;
   modalState.fragIdx = idx;
   document.querySelectorAll('.modal-frag-pill').forEach(function(pill, i){ pill.classList.toggle('active', i === idx); });
-  var priceEl = document.getElementById('modal-price'); if (priceEl) priceEl.textContent = '₹' + frags[idx].price;
+  var priceEl = document.getElementById('modal-price');
+  if (priceEl) priceEl.textContent = '₹' + frags[idx].price;
 }
 
 function selectModalSize(idx) {
@@ -276,7 +294,11 @@ function addToCartFromModal() {
   var fi    = p.fragrances.findIndex(function(f){ return f.name === frag.name; });
   var ex    = cart.find(function(c){ return c.pid === p.id && c.name === name; });
   if (ex) { ex.qty += modalState.qty; }
-  else { cart.push({ pid: p.id, name: name, price: price, qty: modalState.qty, fragIdx: fi >= 0 ? fi : 0, sizeIdx: modalState.sizeIdx, image: frag.image || p.image }); }
+  else {
+    cart.push({ pid: p.id, name: name, price: price, qty: modalState.qty,
+      fragIdx: fi >= 0 ? fi : 0, sizeIdx: modalState.sizeIdx,
+      image: frag.image || p.image });
+  }
   saveCart(); updateCartUI(); closeProductModal();
   showToast(p.name + ' added to cart 🌸');
 }
@@ -289,27 +311,41 @@ function closeProductModal() {
 
 /* ── ABOUT / HERO ── */
 function loadAboutImages() {
-  [{id:'aboutImg1',src:siteImages.about1},{id:'aboutImg2',src:siteImages.about2},{id:'aboutImg3',src:siteImages.about3}]
-    .forEach(function(kv){ var el=document.getElementById(kv.id); if(el) el.innerHTML='<img src="'+kv.src+'" alt=""/>'; });
+  [{id:'aboutImg1',src:siteImages.about1},
+   {id:'aboutImg2',src:siteImages.about2},
+   {id:'aboutImg3',src:siteImages.about3}].forEach(function(kv){
+    var el = document.getElementById(kv.id);
+    if (el) el.innerHTML = '<img src="' + kv.src + '" alt=""/>';
+  });
 }
 function loadHeroImage() {
   var w = document.getElementById('heroImgWrap'); if (!w) return;
   w.innerHTML = '<img src="' + siteImages.hero + '" alt="Noora Candles">';
 }
-function handleContactSubmit(e) { e.preventDefault(); showToast("Message sent! We'll be in touch soon 🌸"); e.target.reset(); }
+function handleContactSubmit(e) {
+  e.preventDefault();
+  showToast("Message sent! We'll be in touch soon 🌸");
+  e.target.reset();
+}
 function initDealsPage() {
   var a = document.getElementById('signupDealActions'); if (!a) return;
   if (typeof currentUser !== 'undefined' && currentUser)
-    a.innerHTML = '<div class="deal-unlocked"><span class="deal-unlocked-icon">✓</span>You\'re signed in — use code <strong>WELCOME15</strong> at checkout!</div>';
+    a.innerHTML = '<div class="deal-unlocked"><span class="deal-unlocked-icon">✓</span>' +
+      'You\'re signed in — use code <strong>WELCOME15</strong> at checkout!</div>';
 }
 
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded', function() {
-  initScrollReveal(); setActiveNav(); renderProducts(); initFilters(); loadHeroImage(); loadAboutImages();
+  initScrollReveal();
+  setActiveNav();
+  renderProducts();
+  initFilters();
+  loadHeroImage();
+  loadAboutImages();
   initAuth().then(function() {
     updateCartUI();
-    if (typeof updateWishlistCount === 'function') updateWishlistCount();
-    if (typeof initDealsPage === 'function') initDealsPage();
+    if (typeof updateWishlistCount   === 'function') updateWishlistCount();
+    if (typeof initDealsPage         === 'function') initDealsPage();
   });
   if (typeof initEmailJS          === 'function') initEmailJS();
   if (typeof initFragranceFromUrl === 'function') initFragranceFromUrl();
