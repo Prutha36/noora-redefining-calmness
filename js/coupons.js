@@ -3,31 +3,17 @@
    ============================================================ */
 
    const COUPONS = {
-    'NOORA10': {
+    'NOORA2026': {
       type: 'percent',
-      value: 10,
-      description: '10% off your order'
+      value: 15,
+      description: '15% off when you sign up'
     },
-    'NOORA20': {
+    'NOORA30': {
       type: 'percent',
-      value: 20,
-      description: '20% off your order'
+      value: 30,
+      description: '30% off your order'
     },
-    'WELCOME100': {
-      type: 'fixed',
-      value: 100,
-      description: '₹100 off your order'
-    },
-    'FREESHIP': {
-      type: 'fixed',
-      value: 50,
-      description: '₹50 off your order'
-    },
-    'FREECANDLE': {
-      type: 'free_product',
-      productId: 7, // Minted Roses — change to any product id
-      description: 'Free Minted Roses candle added to your cart!'
-    },
+    
   };
   
   let appliedCoupon = null;

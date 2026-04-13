@@ -53,7 +53,7 @@
     const fname = document.getElementById('sf-fname')?.value.trim() || '';
     const lname = document.getElementById('sf-lname')?.value.trim() || '';
     const phone = document.getElementById('sf-phone')?.value.trim() || '';
-    const city  = document.getElementById('sf-city')?.value.trim() || '';
+    const address  = document.getElementById('sf-address')?.value.trim() || '';
     const email = document.getElementById('sf-email')?.value.trim() || '';
     const customerName = [fname, lname].filter(Boolean).join(' ') || 'Customer';
   
@@ -99,7 +99,7 @@
     const fname = document.getElementById('sf-fname').value.trim();
     const lname = document.getElementById('sf-lname').value.trim();
     const phone = document.getElementById('sf-phone').value.trim();
-    const city  = document.getElementById('sf-city').value.trim();
+    const address  = document.getElementById('sf-address').value.trim();
     const email = document.getElementById('sf-email')?.value.trim() || '';
   
     const subtotal = getCartTotal();
@@ -132,7 +132,7 @@
   
     // send emails in background
     if (typeof sendOwnerNotificationEmail === 'function') {
-      sendOwnerNotificationEmail(fullName, phone, city, email, [...cart], total, discount, 'WhatsApp');
+      sendOwnerNotificationEmail(fullName, phone, address, email, [...cart], total, discount, 'WhatsApp');
     }
     if (email && typeof sendConfirmationEmail === 'function') {
       sendConfirmationEmail(email, fullName, [...cart], total, discount);
